@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KARASO SHOP | فروشگاه رسمی</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#080b14;--panel:#111624;--panel2:#151b2b;--line:rgba(255,255,255,.08);--text:#f4f6ff;--muted:#929bb2;--purple:#8b5cf6;--cyan:#22d3ee;--gold:#f7c66b;--green:#3ddc97}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(111,58,214,.22),transparent 34%),radial-gradient(ellipse at 88% 14%,rgba(20,164,194,.13),transparent 28%),var(--bg);color:var(--text);font-family:Vazirmatn,Tahoma,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(8,11,20,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{max-width:1200px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.7px}.brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#a855f7,#4338ca 58%,#06b6d4);display:grid;place-items:center;box-shadow:0 8px 28px #6d28d955;font-size:22px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;font-weight:600}
+.navlinks{display:flex;gap:25px;color:#b7bfd2;font-size:13px}.navlinks a:hover{color:#fff}
+.actions{display:flex;align-items:center;gap:10px}.login{border:1px solid var(--line);background:#151b2b;color:#fff;padding:10px 16px;border-radius:12px}.cart{background:linear-gradient(135deg,#8b5cf6,#5b3cc4);color:#fff;border:0;padding:10px 15px;border-radius:12px;box-shadow:0 8px 24px #6d28d944}
+.wrap{max-width:1200px;margin:auto;padding:0 22px}
+.hero{padding:68px 0 44px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:30px}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #8b5cf644;background:#8b5cf615;color:#cbb7ff;border-radius:30px;padding:8px 13px;font-size:12px}
+.pill i{width:7px;height:7px;border-radius:50%;background:#a78bfa;box-shadow:0 0 12px #a78bfa}
+h1{font-size:clamp(35px,5vw,64px);line-height:1.25;margin:18px 0 14px;font-weight:900;letter-spacing:-1.5px}h1 span{background:linear-gradient(90deg,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:580px;line-height:2;font-size:15px}
+.hero-buttons{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}.primary{border:0;color:#fff;background:linear-gradient(110deg,#8b5cf6,#5b46d6);padding:13px 22px;border-radius:14px;font-weight:700;box-shadow:0 12px 30px #6d28d944}.secondary{border:1px solid var(--line);color:#e5e7eb;background:#151b2b;padding:13px 20px;border-radius:14px}
+.hero-art{min-height:290px;position:relative;display:grid;place-items:center}.orb{width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 25%,#c4b5fd,#7c3aed 40%,#172554 72%);box-shadow:0 0 80px #7c3aed55, inset -25px -25px 55px #090b18;position:relative;display:grid;place-items:center;transform:rotate(-12deg)}.orb:before{content:"K";font-size:110px;font-weight:900;color:#fff;text-shadow:0 10px 35px #160b42}.floating{position:absolute;background:#141b2b;border:1px solid #ffffff16;padding:13px 16px;border-radius:15px;box-shadow:0 16px 35px #0005;font-size:12px}.floating b{display:block;font-size:16px}.f1{top:22px;right:0}.f2{bottom:28px;left:2px}.f3{bottom:0;right:35%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0 46px}.stat{background:linear-gradient(135deg,#121827,#0e1320);border:1px solid var(--line);padding:18px;border-radius:16px}.stat b{font-size:22px;display:block}.stat span{font-size:12px;color:var(--muted)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:25px 0}.section-head h2{font-size:27px;margin:0}.section-head p{margin:7px 0 0;color:var(--muted);font-size:13px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{border:1px solid var(--line);background:#111624;color:#aeb7cb;padding:8px 13px;border-radius:10px;font-size:12px}.filter.active{background:#8b5cf622;border-color:#8b5cf6;color:#d8caff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:60px}.product{background:linear-gradient(160deg,#151b2b,#0e1320);border:1px solid var(--line);border-radius:22px;overflow:hidden;transition:.25s;position:relative}.product:hover{transform:translateY(-5px);border-color:#8b5cf666;box-shadow:0 20px 50px #0004}.product-top{height:155px;display:grid;place-items:center;position:relative;background:radial-gradient(ellipse at center,#3b236b88,transparent 70%),linear-gradient(135deg,#15192a,#0d1320)}.product-top.cash{background:radial-gradient(ellipse at center,#0d615b66,transparent 70%),linear-gradient(135deg,#111d29,#0d1320)}.product-top .symbol{font-size:42px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,#e9d5ff,#8b5cf6);-webkit-background-clip:text;color:transparent;text-shadow:0 0 32px #8b5cf655}.cash .symbol{background:linear-gradient(135deg,#a7f3d0,#22d3ee);-webkit-background-clip:text}.tag{position:absolute;top:13px;right:13px;font-size:10px;background:#8b5cf622;color:#d8caff;border:1px solid #8b5cf633;padding:5px 9px;border-radius:20px}.product-body{padding:18px}.product-body h3{margin:0 0 7px;font-size:18px}.desc{font-size:12px;color:var(--muted);margin:0 0 18px}.price-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}.price{font-size:24px;font-weight:900;color:#fff}.price small{font-size:12px;color:#aab3c8;font-weight:500}.buy{width:100%;padding:11px;border:1px solid #8b5cf655;border-radius:12px;background:linear-gradient(100deg,#7c3aed,#5142c7);color:white;font-weight:700}.buy:hover{filter:brightness(1.13)}
+.note{display:flex;align-items:center;gap:13px;background:#101827;border:1px solid var(--line);padding:18px;border-radius:16px;margin:0 0 55px;color:#c4cce0;font-size:13px;line-height:1.9}.note-icon{width:38px;height:38px;border-radius:12px;background:#22d3ee15;color:#67e8f9;display:grid;place-items:center;flex-shrink:0;font-size:20px}
+footer{border-top:1px solid var(--line);padding:25px 0;color:#778198;font-size:12px}.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.modal-backdrop{position:fixed;inset:0;background:#03050bd9;backdrop-filter:blur(7px);z-index:50;display:none;place-items:center;padding:18px}.modal-backdrop.show{display:grid}.modal{width:min(100%,460px);background:#141a2a;border:1px solid #ffffff18;border-radius:22px;padding:25px;box-shadow:0 25px 90px #0008}.modal h3{margin:0 0 8px;font-size:22px}.modal p{color:#aeb7cb;line-height:1.9;font-size:13px}.modal .order-name{color:#c4b5fd;font-weight:800}.rubika{display:block;text-align:center;background:#0b1220;border:1px solid #22d3ee44;padding:13px;border-radius:12px;color:#67e8f9;font-weight:800;margin:15px 0}.modal-actions{display:flex;gap:10px}.modal-actions button{flex:1}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:45px}.hero-art{min-height:240px}.orb{width:190px;height:190px}.orb:before{font-size:85px}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.hero-art{min-height:220px}.f1{right:0}.f2{left:0}.section-head{align-items:start;flex-direction:column}.nav{padding:13px 15px}.wrap{padding:0 15px}.brand{font-size:13px}}
+
+/* KARASO vehicles section */
+
+.vehicle-section{margin:55px 0 40px}.vehicle-section .section-head{margin-bottom:22px}.vehicle-filters{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 22px}.vehicle-filters button{border:1px solid #292d43;background:#141827;color:#aeb7d0;border-radius:12px;padding:10px 17px;cursor:pointer;font-family:inherit}.vehicle-filters button.active{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border-color:transparent}.vehicle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.vehicle-card{overflow:hidden;background:linear-gradient(160deg,#171a2b,#101320);border:1px solid #292d43;border-radius:18px;transition:.22s}.vehicle-card:hover{transform:translateY(-4px);border-color:#8b5cf6;box-shadow:0 15px 35px #0005}.vehicle-photo{height:190px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 80%,#39305c,#111421 70%);display:flex;align-items:center;justify-content:center}.vehicle-photo img{width:100%;height:100%;object-fit:cover;display:block}.vehicle-photo.image-fallback:after{content:attr(data-title);position:absolute;inset:auto 0 0;text-align:center;padding:12px;color:#dcd5ff;background:linear-gradient(transparent,#090b13cc);font-weight:800;letter-spacing:1px}.vehicle-badge{position:absolute;top:12px;right:12px;background:#8b5cf6;color:white;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800;z-index:2}.vehicle-info{padding:17px}.vehicle-info h3{margin:0 0 8px;font-size:18px;color:#f3f4ff}.vehicle-info p{margin:0 0 14px;color:#9aa3bc;font-size:13px}.vehicle-price{font-weight:900;color:#c4b5fd;font-size:20px;margin-bottom:13px}.vehicle-price small{display:block;font-size:11px;color:#818ba5;font-weight:500;margin-top:4px}.vehicle-buy{width:100%;border:0;border-radius:11px;padding:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:white;font-family:inherit;font-weight:800;cursor:pointer}.vehicle-buy:hover{filter:brightness(1.13)}.shop-order-message{direction:rtl;text-align:right;background:#0b1020;border:1px solid #303752;border-radius:12px;padding:12px;margin:12px 0;color:#dce3ff;white-space:pre-wrap}.modal-backdrop{z-index:1000}.modal{max-width:460px}.modal .order-name{color:#a78bfa;font-weight:800}.modal .modal-actions{display:flex;gap:10px;flex-wrap:wrap}.modal .modal-actions button{cursor:pointer}.order-help{font-size:12px;color:#9ca7c2;margin-top:10px}.vehicle-section .section-head h2{color:#f5f3ff}@media(max-width:900px){.vehicle-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){.vehicle-grid{grid-template-columns:1fr}.vehicle-photo{height:210px}}
+</style>
+</head>
+<body>
+<header class="topbar"><nav class="nav">
+<a class="brand" href="#"><span class="brand-mark">K</span><span>KARASO SHOP<small>ROLEPLAY STORE</small></span></a>
+<div class="navlinks"><a href="#products">فروشگاه</a><a href="#how">راهنمای خرید</a><a href="#support">پشتیبانی</a><a href="#vehicles">ماشین و موتور</a></div>
+<div class="actions"><button class="login" onclick="alert('ورود و ثبت‌نام در نسخه متصل به Supabase فعال می‌شود.')">ورود / ثبت‌نام</button><button class="cart" onclick="document.querySelector('#products').scrollIntoView({behavior:'smooth'})">مشاهده محصولات</button></div>
+</nav></header>
+<main class="wrap">
+<section class="hero">
+<div><span class="pill"><i></i> فروشگاه رسمی Karaso RolePlay</span>
+<h1>قدرت بیشتر.<br/><span>تجربه‌ای متفاوت.</span></h1>
+<p>دونیت و دارایی مورد نیازت رو با چند کلیک انتخاب کن. سفارش خودت رو ثبت کن و برای تکمیل خرید با پشتیبانی در ارتباط باش.</p>
+<div class="hero-buttons"><a class="primary" href="#products">شروع خرید <span>←</span></a><a class="secondary" href="#how">راهنمای سفارش</a></div></div>
+<div class="hero-art"><div class="orb"></div><div class="floating f1"><b>⚡ سریع و آسان</b><span>ثبت سفارش در چند ثانیه</span></div><div class="floating f2"><b>🛡️ خرید مطمئن</b><span>پیگیری توسط تیم مدیریت</span></div><div class="floating f3"><b style="color:#67e8f9">KARASO</b></div></div>
+</section>
+<div class="stats"><div class="stat"><b>۹ محصول</b><span>پکیج‌های متنوع</span></div><div class="stat"><b>۲۴/۷</b><span>ثبت سفارش آنلاین</span></div><div class="stat"><b>پشتیبانی</b><span>از طریق روبیکا</span></div></div>
+<section id="products">
+<div class="section-head"><div><h2>محصولات فروشگاه</h2><p>پکیج مورد نظرت رو انتخاب کن و سفارش بده.</p></div><div class="filters"><button class="filter active" data-filter="all">همه محصولات</button><button class="filter" data-filter="donate">Donate</button><button class="filter" data-filter="money">دارایی</button></div></div>
+<div class="grid" id="productGrid"></div>
+</section>
+<section class="vehicle-section" id="vehicles"><div class="section-head"><div><h2>🚘 ماشین‌ها و موتورسیکلت‌ها</h2><p>مدل موردعلاقه‌ات را انتخاب کن و درخواست خرید بده.</p></div></div><div class="vehicle-filters" id="vehicleFilters"><button class="active" data-vfilter="all">همه وسایل</button><button data-vfilter="car">ماشین‌ها</button><button data-vfilter="bike">موتورسیکلت‌ها</button><button data-vfilter="vip">VIP</button></div><div class="vehicle-grid" id="vehicleGrid"></div></section><section class="note" id="how"><div class="note-icon">ⓘ</div><div><b>مراحل خرید</b><br/>محصول را انتخاب کن، نام کاربری بازی را وارد کن، متن سفارش را کپی کن و برای پشتیبانی روبیکا بفرست.</div></section>
+</main>
+<footer id="support"><div class="wrap footer-inner"><span>© KARASO ROLEPLAY · KARASO SHOP</span><span>پشتیبانی روبیکا: <b style="color:#67e8f9">@Id_Etebarr</b></span></div></footer>
+<div class="modal-backdrop" id="orderModal" onclick="if(event.target===this)closeModal()"><div class="modal"><h3>درخواست خرید 🎉</h3><p>محصول انتخاب‌شده: <span class="order-name" id="orderProduct"></span></p><p>برای تکمیل سفارش، متن زیر را برای پشتیبانی KARASO ارسال کن:</p><label for="gameUsername" style="display:block;margin:12px 0 6px;color:#dbe2f5;font-weight:700;font-size:13px">نام کاربری داخل بازی</label><input id="gameUsername" type="text" placeholder="مثلاً Noyan_..." autocomplete="off" style="width:100%;box-sizing:border-box;background:#090f1c;color:#fff;border:1px solid #39415c;border-radius:10px;padding:12px;font:inherit;margin-bottom:12px"><div class="shop-order-message" id="orderMessage"></div><div class="modal-actions"><button class="primary" onclick="copyOrderMessage()">کپی متن سفارش</button><button class="secondary" onclick="sendOrderToSupport()">کپی سفارش + بازکردن پشتیبانی</button><button class="secondary" onclick="closeModal()">بستن</button></div><p class="order-help">این سایت پرداخت یا موجودی حساب ندارد؛ خرید از طریق هماهنگی با پشتیبانی انجام می‌شود.</p></div></div>
+
+<script>const RUBIKA_SUPPORT='https://rubika.ir/Id_Etebarr';
+const products=[
+{name:'50 Donate',price:30,category:'donate',tag:'پکیج محبوب',symbol:'50',desc:'پکیج دونیت برای شروع'},
+{name:'100 Donate',price:50,category:'donate',tag:'ارزشمند',symbol:'100',desc:'دونیت بیشتر، امکانات بیشتر'},
+{name:'300 Donate',price:100,category:'donate',tag:'پیشنهاد ویژه',symbol:'300',desc:'پکیج ویژه بازیکنان'},
+{name:'500 Donate',price:150,category:'donate',tag:'پکیج حرفه‌ای',symbol:'500',desc:'پکیج دونیت ویژه'},
+{name:'500K',price:20,category:'money',tag:'اقتصادی',symbol:'500K',desc:'دارایی داخل بازی'},
+{name:'1KK',price:30,category:'money',tag:'محبوب',symbol:'1KK',desc:'دارایی داخل بازی'},
+{name:'10KK',price:80,category:'money',tag:'پیشنهاد ویژه',symbol:'10KK',desc:'دارایی بیشتر برای پیشرفت'},
+{name:'20KK',price:110,category:'money',tag:'ویژه',symbol:'20KK',desc:'پکیج دارایی داخل بازی'},
+{name:'30KK',price:150,category:'money',tag:'پکیج برتر',symbol:'30KK',desc:'پکیج دارایی داخل بازی'}];
+const vehicles=[
+{name:'Mercedes-Benz 320',category:'car',price:'320.000',desc:'سدان کلاسیک و خوش‌استایل',img:'assets/mercedes-320.svg'},
+{name:'BMW 330',category:'car',price:'330.000',desc:'BMW سری 3 نسل E46',img:'assets/bmw-330.svg'},
+{name:'Kawasaki Ninja',category:'bike',price:'140.000',desc:'موتور اسپرت نینجا',img:'assets/kawasaki-ninja.svg'},
+{name:'125 Motorcycle',category:'bike',price:'80.000',desc:'موتورسیکلت شهری 125',img:'assets/motorcycle-125.svg'},
+{name:'Ferrari VIP',category:'vip',price:'300.000',desc:'سوپر اسپرت ویژه VIP',img:'assets/ferrari-vip.svg'},
+{name:'Mercedes-Benz Camper',category:'car',price:'70.000',desc:'ون مناسب سفر و کار',img:'assets/camper.svg'},
+{name:'Rancher',category:'car',price:'250.000',desc:'SUV آفرود',img:'assets/rancher.svg'},
+{name:'Audi',category:'car',price:'220.000',desc:'سدان لوکس آلمانی',img:'assets/audi.svg'},
+{name:'FCR-900',category:'bike',price:'90.000',desc:'موتور اسپرت قدرتمند',img:'assets/fcr-900.svg'},
+{name:'Sadler',category:'car',price:'180.000',desc:'پیکاپ کاربردی',img:'assets/sadler.svg'}];
+const productGrid=document.getElementById('productGrid');
+function renderProducts(filter='all'){productGrid.innerHTML=products.filter(p=>filter==='all'||p.category===filter).map(p=>`<article class="product"><div class="product-top ${p.category==='money'?'cash':''}"><span class="tag">${p.tag}</span><div class="symbol">${p.symbol}</div></div><div class="product-body"><h3>${p.name}</h3><p class="desc">${p.desc}</p><div class="price-row"><div class="price">${p.price} <small>هزار تومان</small></div><span style="color:#7c89a5;font-size:11px">● قابل سفارش</span></div><button class="buy" onclick="openOrder(${JSON.stringify(p.name)},${p.price},'تومان')">خرید محصول <span>←</span></button></div></article>`).join('')}
+document.querySelectorAll('#products .filter').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('#products .filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProducts(btn.dataset.filter)}));
+function renderVehicles(filter='all'){const grid=document.getElementById('vehicleGrid');grid.innerHTML=vehicles.filter(v=>filter==='all'||v.category===filter||(filter==='car'&&v.category==='vip')).map(v=>`<article class="vehicle-card"><div class="vehicle-photo" data-title="${v.name}"><span class="vehicle-badge">${v.category==='vip'?'VIP':'KARASO'}</span><img src="${v.img}" alt="${v.name}" loading="eager" onerror="this.style.display='none';this.parentElement.classList.add('image-fallback')"></div><div class="vehicle-info"><h3>${v.name}</h3><p>${v.desc}</p><div class="vehicle-price">R$ ${v.price}<small>قیمت اعلام‌شده در فروشگاه</small></div><button class="vehicle-buy" onclick="openOrder(${JSON.stringify(v.name)},'R$ ${v.price}','')">🛒 درخواست خرید</button></div></article>`).join('')}
+document.querySelectorAll('#vehicleFilters button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('#vehicleFilters button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderVehicles(btn.dataset.vfilter)}));
+let currentOrder='',currentProduct='',currentPrice='',currentUnit='';
+function updateOrderText(){const username=(document.getElementById('gameUsername').value||'').trim();currentOrder=`درخواست خرید KARASO RolePlay\nمحصول: ${currentProduct}\nقیمت: ${currentPrice}${currentUnit?' '+currentUnit:''}\nنام کاربری داخل بازی: ${username||' (هنوز وارد نشده)'}\n`;document.getElementById('orderMessage').textContent=currentOrder;}
+function openOrder(name,price,unit='هزار تومان'){currentProduct=name;currentPrice=price;currentUnit=unit||'';document.getElementById('orderProduct').textContent=name+' — '+price+(unit?' '+unit:'');document.getElementById('gameUsername').value='';updateOrderText();document.getElementById('orderModal').classList.add('show');setTimeout(()=>document.getElementById('gameUsername').focus(),50);}
+document.getElementById('gameUsername').addEventListener('input',updateOrderText);
+function closeModal(){document.getElementById('orderModal').classList.remove('show')}
+function openSupport(){window.open(RUBIKA_SUPPORT,'_blank','noopener')}
+async function copyOrderMessage(){updateOrderText();try{await navigator.clipboard.writeText(currentOrder);alert('متن سفارش کپی شد؛ آن را برای پشتیبانی روبیکا ارسال کن.')}catch(e){window.prompt('متن سفارش را کپی کن:',currentOrder)}}
+function sendOrderToSupport(){updateOrderText();const username=(document.getElementById('gameUsername').value||'').trim();if(!username){alert('لطفاً نام کاربری داخل بازی را وارد کن.');document.getElementById('gameUsername').focus();return;}window.open(RUBIKA_SUPPORT,'_blank','noopener');copyOrderMessage();}
+document.getElementById('orderModal').addEventListener('click',e=>{if(e.target.id==='orderModal')closeModal()});
+renderProducts();renderVehicles();</script></body>
+</html>
