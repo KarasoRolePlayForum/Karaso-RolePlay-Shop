@@ -1,1 +1,105 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KARASO | پنل مدیریت</title><link rel="stylesheet" href="./admin.css"></head><body><main class="shell"><header><a href="./index.html" class="brand">KARASO <small>CONTROL CENTER</small></a><button id="logout" class="ghost hidden">بازگشت به فروشگاه</button></header><section id="loginView" class="login"><small>SECURE ADMIN ACCESS</small><h1>در حال بررسی دسترسی…</h1><p>پنل فقط برای حساب‌های Owner و Admin فعال است. اگر هنوز وارد حساب نشده‌اید، به صفحه فروشگاه منتقل می‌شوید.</p><div id="loginError" class="error"></div></section><section id="dashboard" class="hidden"><div class="heading"><div><small>ORDER MANAGEMENT</small><h1>مدیریت سفارش‌ها</h1><p id="who"></p></div><button id="refresh">بروزرسانی</button></div><div class="stats"><article><small>کل سفارش‌ها</small><b id="total">0</b></article><article><small>در انتظار بررسی</small><b id="pending">0</b></article><article><small>تأیید شده</small><b id="approved">0</b></article><article><small>تکمیل شده</small><b id="done">0</b></article></div><div class="toolbar"><input id="search" placeholder="جستجو در سفارش‌ها..."><select id="statusFilter"><option value="all">همه وضعیت‌ها</option><option value="pending">در انتظار</option><option value="approved">تأیید شده</option><option value="rejected">رد شده</option><option value="completed">تکمیل شده</option></select></div><div id="orders" class="orders"></div></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./admin.js"></script></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KARASO | پنل مدیریت</title>
+  <link rel="stylesheet" href="./admin.css">
+</head>
+
+<body>
+  <main class="shell">
+
+    <header>
+      <a href="./index.html" class="brand">
+        KARASO
+        <small>CONTROL CENTER</small>
+      </a>
+
+      <button id="logout" class="ghost hidden" type="button">
+        بازگشت به فروشگاه
+      </button>
+    </header>
+
+    <!-- بررسی دسترسی مدیر -->
+    <section id="loginView" class="login">
+      <small>SECURE ADMIN ACCESS</small>
+
+      <h1>در حال بررسی دسترسی…</h1>
+
+      <p>
+        پنل فقط برای حساب‌های Owner و Admin فعال است.
+        اگر هنوز وارد حساب نشده‌اید، به صفحه فروشگاه منتقل می‌شوید.
+      </p>
+
+      <div id="loginError" class="error"></div>
+    </section>
+
+    <!-- پنل مدیریت -->
+    <section id="dashboard" class="hidden">
+
+      <div class="heading">
+        <div>
+          <small>ORDER MANAGEMENT</small>
+          <h1>مدیریت سفارش‌ها</h1>
+          <p id="who"></p>
+        </div>
+
+        <button id="refresh" type="button">
+          بروزرسانی
+        </button>
+      </div>
+
+      <!-- آمار سفارش‌ها -->
+      <div class="stats">
+        <article>
+          <small>کل سفارش‌ها</small>
+          <b id="total">0</b>
+        </article>
+
+        <article>
+          <small>در انتظار بررسی</small>
+          <b id="pending">0</b>
+        </article>
+
+        <article>
+          <small>تأیید شده</small>
+          <b id="approved">0</b>
+        </article>
+
+        <article>
+          <small>تکمیل شده</small>
+          <b id="done">0</b>
+        </article>
+      </div>
+
+      <!-- جستجو و فیلتر -->
+      <div class="toolbar">
+        <input
+          id="search"
+          type="search"
+          placeholder="جستجو در سفارش‌ها..."
+        >
+
+        <select id="statusFilter">
+          <option value="all">همه وضعیت‌ها</option>
+          <option value="pending">در انتظار</option>
+          <option value="approved">تأیید شده</option>
+          <option value="rejected">رد شده</option>
+          <option value="completed">تکمیل شده</option>
+        </select>
+      </div>
+
+      <!-- فهرست سفارش‌ها -->
+      <div id="orders" class="orders"></div>
+
+    </section>
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./admin.js"></script>
+
+</body>
+</html>
