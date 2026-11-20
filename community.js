@@ -37,8 +37,10 @@ function setCommunityAuthMode(mode){
  $('#communityAuthToggle').classList.remove('hidden');
  $('#communityForgotPassword').classList.remove('hidden');
  const wrap=$('#communityGameNameWrap');
- wrap.classList.toggle('hidden',mode!=='signup');
- wrap.querySelector('input').required=mode==='signup';
+ const showName=mode==='signup';
+ wrap.classList.toggle('hidden',!showName);
+ wrap.style.display=showName?'block':'none';
+ wrap.querySelector('input').required=showName;
  wrap.querySelector('input').value='';
  wrap.querySelector('input').placeholder='مثلاً Karaso_Player';
  $('#communityAuthError').textContent='';

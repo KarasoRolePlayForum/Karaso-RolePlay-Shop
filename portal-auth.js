@@ -7,8 +7,10 @@ function portalOpen(mode='login'){
  p$('#portalAuthToggle').classList.remove('hidden');p$('#portalForgot').classList.remove('hidden');
  p$('#portalAuthToggle').textContent=mode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';
  const nameWrap=p$('#portalGameNameWrap'),nameInput=p$('#portalAuthForm [name=display_name]');
- nameWrap.classList.toggle('hidden',mode!=='signup');
- nameInput.required=mode==='signup';
+ const showName=mode==='signup';
+ nameWrap.classList.toggle('hidden',!showName);
+ nameWrap.style.display=showName?'grid':'none';
+ nameInput.required=showName;
  nameInput.value='';
  nameInput.placeholder='مثلاً Karaso_Player';
  p$('#portalAuthError').textContent='';
