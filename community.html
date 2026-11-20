@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KARASO ROLEPLAY | انجمن</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./community.css"></head>
+<body>
+<header class="top"><a class="brand" href="./index.html"><b>K</b><span>KARASO<small>ROLEPLAY COMMUNITY</small></span></a>
+<nav><a href="./index.html">خانه و فروشگاه</a><a href="./community.html">انجمن</a><a href="#tickets">پشتیبانی خصوصی</a></nav>
+<div class="account-area"><span id="communityAuthState">در حال بررسی حساب...</span><button class="admin-link" id="communityLogin">ورود / ثبت‌نام</button><button class="admin-link hidden" id="communityLogout">خروج</button><a class="admin-link hidden" id="ownerPanelLink" href="./admin.html">پنل مدیریت</a></div></header>
+<main class="community-wrap">
+<section class="community-hero"><div><small>KARASO ROLEPLAY / FORUM</small><h1>انجمن رسمی <em>کاراسو</em></h1><p>اطلاعیه‌ها، قوانین، درخواست‌ها و گفتگوهای جامعه بازیکنان.</p></div><div class="server-pill">SERVER IP <b>5.42.217.107:9223</b></div></section>
+<section class="forum-layout">
+<aside class="forum-sidebar"><h3>دسته‌بندی انجمن</h3><div id="categoryList"></div><hr><h3>پشتیبانی خصوصی</h3><p>تیکت‌های پشتیبانی فقط برای صاحب تیکت و تیم مدیریت قابل مشاهده‌اند.</p><a class="forum-btn secondary-btn" href="#tickets">رفتن به پشتیبانی</a></aside>
+<section class="forum-main">
+<div class="forum-toolbar"><div><small>COMMUNITY TOPICS</small><h2 id="currentCategoryTitle">همه موضوعات</h2></div><button id="newTopicBtn" class="forum-btn hidden">+ ایجاد موضوع جدید</button></div>
+<div id="topicNotice" class="notice">ایجاد موضوع جدید فقط توسط Owner انجام می‌شود. کاربران می‌توانند در موضوعات باز پاسخ ثبت کنند.</div>
+<div id="topicList" class="topic-list"><p>در حال دریافت موضوعات...</p></div>
+<div id="topicDetail" class="topic-detail hidden"></div>
+</section></section>
+<section class="tickets-section" id="tickets"><div class="forum-toolbar"><div><small>PRIVATE SUPPORT</small><h2>پشتیبانی و تیکت‌ها</h2></div></div>
+<div class="ticket-grid"><form id="ticketForm" class="panel-form"><h3>ثبت تیکت جدید</h3><label>موضوع تیکت<input name="subject" maxlength="120" required></label><label>شرح درخواست<textarea name="message" rows="4" maxlength="3000" required></textarea></label><button class="forum-btn" type="submit">ارسال تیکت</button><p class="form-error" id="ticketError"></p></form>
+<div class="ticket-list panel-form"><h3>تیکت‌های من</h3><div id="myTickets">برای مشاهده تیکت‌ها وارد حساب شو.</div></div></div></section>
+</main>
+<div class="overlay" id="communityAuthOverlay"><form class="modal" id="communityAuthForm"><button type="button" class="x" id="communityAuthClose">×</button><small>SUPABASE ACCOUNT</small><h2 id="communityAuthTitle">ورود به حساب</h2><label>ایمیل<input type="email" name="email" required></label><label>رمز عبور<input type="password" name="password" minlength="6" required></label><button class="cta full" type="submit" id="communityAuthSubmit">ورود</button><button type="button" class="secondary full" id="communityAuthToggle">حساب ندارم؛ ثبت‌نام</button><p class="form-error" id="communityAuthError"></p></form></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./community.js"></script>
+</body></html>
