@@ -31,8 +31,9 @@ function setCommunityAuthMode(mode){
  $('#communityAuthToggle').classList.toggle('hidden',mode==='complete-profile');
  $('#communityForgotPassword').classList.toggle('hidden',mode==='complete-profile');
  const wrap=$('#communityGameNameWrap');
- wrap.classList.toggle('hidden',mode==='login');
- wrap.querySelector('input').required=mode!=='login';
+ wrap.classList.remove('hidden');
+ wrap.querySelector('input').required=mode==='signup'||mode==='complete-profile';
+ wrap.querySelector('input').placeholder=mode==='login'?'اگر قبلاً نام ثبت نکرده‌ای، اینجا وارد کن':'مثلاً Karaso_Player';
  $('#communityAuthError').textContent='';
 }
 function openAuth(){setCommunityAuthMode('login');$('#communityAuthOverlay').classList.add('show')}
@@ -60,7 +61,7 @@ $('#communityAuthForm').onsubmit=async e=>{
   if(r.data.user){
    const {data:profile,error:profileReadError}=await sb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
    if(profileReadError)throw profileReadError;
-   const chosenName=mode==='signup'?displayName:String(profile?.display_name||'').trim();
+   const chosenName=displayName || (mode==='signup'?'':String(profile?.display_name||'').trim());
    if(!chosenName){
     setCommunityAuthMode('complete-profile');
     $('#communityAuthError').textContent='برای ادامه ورود به انجمن، نام درون‌بازی خودت را وارد کن.';

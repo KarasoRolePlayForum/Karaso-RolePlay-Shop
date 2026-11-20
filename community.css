@@ -47,3 +47,12 @@
 .kr-forum.kr-topic-focus #topicDetail .reply-form textarea {min-height:120px;font-size:14px;}
 .kr-forum.kr-topic-focus #backTopics {padding:10px 20px;font-size:13px;}
 @media(max-width:600px){.kr-forum.kr-topic-focus .kr-forum-wrap{padding:10px 7px 30px}.kr-forum.kr-topic-focus .kr-category-area{padding:8px}.kr-forum.kr-topic-focus #topicDetail{padding:8px}.kr-forum.kr-topic-focus #topicDetail .topic-post{padding:13px}}
+
+/* Always-visible in-game name field in the forum login/signup modal */
+#communityAuthForm #communityGameNameWrap{display:block!important;visibility:visible!important;opacity:1!important}
+#communityAuthForm #communityGameNameWrap input{display:block!important;width:100%;min-height:44px;box-sizing:border-box}
+@media(max-width:600px){
+  #communityAuthForm{width:min(100%,430px);max-height:calc(100dvh - 24px);overflow-y:auto;padding:20px 16px}
+  #communityAuthForm #communityGameNameWrap{display:block!important;margin-top:12px}
+  #communityAuthForm #communityGameNameWrap input{font-size:16px;min-height:48px}
+}
