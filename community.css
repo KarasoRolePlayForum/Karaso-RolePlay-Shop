@@ -22,7 +22,27 @@
 
 .author-line{display:flex;align-items:center;gap:9px}.author-line b{color:#f0b16c}.author-line span{font-size:10px;background:#49352b;color:#f4c28b;border:1px solid #785533;border-radius:20px;padding:3px 9px}.mini-danger{background:#5b2428;color:#ffe1e1;border:1px solid #a34a4e;border-radius:7px;padding:7px 11px;cursor:pointer;font:11px Vazirmatn}.quick-topic-form{display:grid;gap:10px}.quick-topic-form label{display:grid;gap:5px;font-size:11px}.quick-topic-form input,.quick-topic-form select,.quick-topic-form textarea{width:100%;box-sizing:border-box;background:#121015;color:#fff;border:1px solid #514653;border-radius:8px;padding:11px;font:12px Vazirmatn}.quick-topic-form button{justify-self:start}.kr-forum .topic-post{padding:13px;border:1px solid #3e3542;border-radius:9px;margin:10px 0;background:#1a171d}
 
-/* Focus mode: show only the selected topic and its replies */
+/* CATEGORY FOCUS: show only the selected category and its topics */
+.kr-forum.kr-category-focus .kr-noticebar,
+.kr-forum.kr-category-focus .kr-side,
+.kr-forum.kr-category-focus .kr-welcome,
+.kr-forum.kr-category-focus .kr-activity,
+.kr-forum.kr-category-focus .kr-tickets,
+.kr-forum.kr-category-focus .kr-top nav,
+.kr-forum.kr-category-focus .kr-top .account-area {display:none!important}
+.kr-forum.kr-category-focus .kr-top {justify-content:center;border-bottom:0;background:transparent;box-shadow:none}
+.kr-forum.kr-category-focus .kr-forum-wrap {max-width:1050px;padding:18px 12px 40px}
+.kr-forum.kr-category-focus .kr-grid {display:block;max-width:100%}
+.kr-forum.kr-category-focus .kr-center {display:block;width:100%}
+.kr-forum.kr-category-focus .kr-category-area {display:block!important;margin:0;padding:clamp(14px,3vw,30px);min-height:70vh;border-color:#76512f;background:#1b171d}
+.kr-forum.kr-category-focus #categoryGrid,
+.kr-forum.kr-category-focus #topicNotice {display:none!important}
+.kr-forum.kr-category-focus #topicList {display:grid!important;gap:12px}
+.kr-forum.kr-category-focus .kr-section-head {display:flex!important}
+.kr-forum.kr-category-focus #topicDetail {display:none!important}
+
+/* TOPIC FOCUS: show only the selected topic, its replies and reply box */
+.kr-forum.kr-topic-focus .kr-top,
 .kr-forum.kr-topic-focus .kr-noticebar,
 .kr-forum.kr-topic-focus .kr-side,
 .kr-forum.kr-topic-focus .kr-welcome,
@@ -32,21 +52,24 @@
 .kr-forum.kr-topic-focus .kr-hint,
 .kr-forum.kr-topic-focus #categoryGrid,
 .kr-forum.kr-topic-focus #topicList {display:none!important}
-.kr-forum.kr-topic-focus .kr-top nav,
-.kr-forum.kr-topic-focus .kr-top .account-area {display:none!important}
-.kr-forum.kr-topic-focus .kr-grid {display:block;max-width:100%;}
-.kr-forum.kr-topic-focus .kr-forum-wrap {max-width:1050px;padding-top:22px;}
-.kr-forum.kr-topic-focus .kr-center {width:100%;}
-.kr-forum.kr-topic-focus .kr-category-area {margin:0;padding:clamp(14px,3vw,30px);min-height:70vh;border-color:#76512f;background:#1b171d;}
-.kr-forum.kr-topic-focus #topicDetail {display:block!important;margin:0;padding:clamp(16px,3vw,32px);border:0;background:transparent;}
-.kr-forum.kr-topic-focus #topicDetail > h2 {font-size:clamp(25px,4vw,38px);line-height:1.6;margin:18px 0 24px;color:#f4c18b;}
-.kr-forum.kr-topic-focus #topicDetail .topic-post {padding:20px;margin:14px 0;background:#211c23;border:1px solid #453746;border-radius:12px;font-size:14px;line-height:2.2;}
-.kr-forum.kr-topic-focus #topicDetail .topic-post p {white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;}
-.kr-forum.kr-topic-focus #topicDetail .reply-form {margin-top:28px;padding:18px;background:#211c23;border:1px solid #55402e;border-radius:12px;}
-.kr-forum.kr-topic-focus #topicDetail .reply-form h3 {font-size:18px;}
-.kr-forum.kr-topic-focus #topicDetail .reply-form textarea {min-height:120px;font-size:14px;}
-.kr-forum.kr-topic-focus #backTopics {padding:10px 20px;font-size:13px;}
-@media(max-width:600px){.kr-forum.kr-topic-focus .kr-forum-wrap{padding:10px 7px 30px}.kr-forum.kr-topic-focus .kr-category-area{padding:8px}.kr-forum.kr-topic-focus #topicDetail{padding:8px}.kr-forum.kr-topic-focus #topicDetail .topic-post{padding:13px}}
+.kr-forum.kr-topic-focus .kr-forum-wrap {max-width:1050px;padding:18px 12px 40px}
+.kr-forum.kr-topic-focus .kr-grid {display:block;max-width:100%}
+.kr-forum.kr-topic-focus .kr-center {display:block;width:100%}
+.kr-forum.kr-topic-focus .kr-category-area {display:block!important;margin:0;padding:clamp(12px,3vw,28px);min-height:70vh;border:0;background:transparent}
+.kr-forum.kr-topic-focus #topicDetail {display:block!important;margin:0;padding:clamp(16px,3vw,32px);border:1px solid #76512f;border-radius:12px;background:#1b171d}
+.kr-forum.kr-topic-focus #topicDetail > h2 {font-size:clamp(25px,4vw,38px);line-height:1.6;margin:18px 0 24px;color:#f4c18b}
+.kr-forum.kr-topic-focus #topicDetail .topic-post {padding:20px;margin:14px 0;background:#211c23;border:1px solid #453746;border-radius:12px;font-size:14px;line-height:2.2}
+.kr-forum.kr-topic-focus #topicDetail .topic-post p {white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}
+.kr-forum.kr-topic-focus #topicDetail .reply-form {margin-top:28px;padding:18px;background:#211c23;border:1px solid #55402e;border-radius:12px}
+.kr-forum.kr-topic-focus #topicDetail .reply-form h3 {font-size:18px}
+.kr-forum.kr-topic-focus #topicDetail .reply-form textarea {min-height:120px;font-size:14px}
+.kr-forum.kr-topic-focus #backTopics {padding:10px 20px;font-size:13px}
+@media(max-width:600px){
+ .kr-forum.kr-category-focus .kr-forum-wrap,.kr-forum.kr-topic-focus .kr-forum-wrap {padding:8px 6px 28px}
+ .kr-forum.kr-category-focus .kr-category-area,.kr-forum.kr-topic-focus .kr-category-area {padding:8px}
+ .kr-forum.kr-topic-focus #topicDetail {padding:9px}
+ .kr-forum.kr-topic-focus #topicDetail .topic-post {padding:13px}
+}
 
 /* Always-visible in-game name field in the forum login/signup modal */
 #communityAuthForm #communityGameNameWrap{display:block!important;visibility:visible!important;opacity:1!important}
