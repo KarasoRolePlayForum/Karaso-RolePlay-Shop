@@ -184,3 +184,8 @@ body{background:radial-gradient(ellipse at 50% -20%,#4a302622,transparent 55%),#
  #portalAuthForm #portalGameNameWrap{display:block!important}
  #portalAuthForm #portalGameNameWrap input{font-size:16px;min-height:48px}
 }
+
+
+/* FINAL FIX: game name must be hidden in LOGIN mode even if older rules force labels visible. */
+#portalAuthForm #portalGameNameWrap.hidden, #authForm #shopGameNameWrap.hidden { display:none !important; visibility:hidden !important; }
+#portalAuthForm #portalGameNameWrap:not(.hidden), #authForm #shopGameNameWrap:not(.hidden) { display:grid !important; visibility:visible !important; }
