@@ -61,14 +61,18 @@ $('#communityAuthForm').onsubmit=async e=>{
   if(r.data.user){
    const {data:profile,error:profileReadError}=await sb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
    if(profileReadError)throw profileReadError;
-   const chosenName=displayName || (mode==='signup'?'':String(profile?.display_name||'').trim());
+   const savedName=String(profile?.display_name||'').trim();
+   // On login, keep an existing saved name unchanged. Ask only once if none exists.
+   const chosenName=mode==='login'?(savedName||displayName):displayName;
    if(!chosenName){
     setCommunityAuthMode('complete-profile');
-    $('#communityAuthError').textContent='برای ادامه ورود به انجمن، نام درون‌بازی خودت را وارد کن.';
+    $('#communityAuthError').textContent='این اولین ورود شماست؛ نام درون‌بازی را وارد کن تا برای دفعات بعد ذخیره شود.';
     return;
    }
-   const {error:profileError}=await sb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
-   if(profileError)throw profileError;
+   if(mode==='signup'||!savedName){
+    const {error:profileError}=await sb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
+    if(profileError)throw profileError;
+   }
   }
   $('#communityAuthOverlay').classList.remove('show');await refreshSession(r.data.session);
  }catch(err){$('#communityAuthError').textContent=err.message}
