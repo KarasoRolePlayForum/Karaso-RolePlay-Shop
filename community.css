@@ -84,3 +84,22 @@
 /* FINAL FIX: game name must be hidden in LOGIN mode even if older rules force labels visible. */
 #communityAuthForm #communityGameNameWrap.hidden { display:none !important; visibility:hidden !important; }
 #communityAuthForm #communityGameNameWrap:not(.hidden) { display:block !important; visibility:visible !important; }
+
+/* Long-message support: multiline text remains readable and wraps on mobile. */
+#community .kr-form textarea,
+#topicDetail textarea,
+.quick-topic-form textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.9;
+  box-sizing: border-box;
+}
+#topicDetail .topic-post p,
+#myTickets p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}

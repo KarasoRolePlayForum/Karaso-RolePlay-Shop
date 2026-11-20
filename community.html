@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KARASO ROLEPLAY | انجمن</title>
-<link rel="stylesheet" href="./style.css?v=20261120-name-visibility-final"><link rel="stylesheet" href="./community.css?v=20261120-name-visibility-final">
+<link rel="stylesheet" href="./style.css?v=20261120-name-visibility-final"><link rel="stylesheet" href="./community.css?v=20261120-longtext">
 </head>
 <body class="kr-forum">
 <header class="top kr-top">
@@ -27,7 +27,7 @@
 <div id="topicList" class="kr-topic-list hidden"></div><div id="topicDetail" class="kr-topic-detail hidden"></div>
 </section>
 <section class="kr-tickets" id="tickets"><div class="kr-section-head"><div><small>PRIVATE SUPPORT</small><h2>پشتیبانی و تیکت‌ها</h2></div></div><div class="kr-ticket-grid">
-<form id="ticketForm" class="kr-form"><h3>ثبت تیکت جدید</h3><label>موضوع تیکت<input name="subject" maxlength="120" required></label><label>شرح درخواست<textarea name="message" rows="4" maxlength="3000" required></textarea></label><button class="kr-button" type="submit">ارسال تیکت</button><p class="form-error" id="ticketError"></p></form>
+<form id="ticketForm" class="kr-form"><h3>ثبت تیکت جدید</h3><label>موضوع تیکت<input name="subject" maxlength="120" required></label><label>شرح درخواست<textarea name="message" rows="6" required></textarea></label><button class="kr-button" type="submit">ارسال تیکت</button><p class="form-error" id="ticketError"></p></form>
 <div class="kr-form"><h3>تیکت‌های من</h3><div id="myTickets">برای مشاهده تیکت‌ها وارد حساب شو.</div></div></div></section>
 </section>
 <aside class="kr-side kr-right">
@@ -38,5 +38,5 @@
 </section>
 </main>
 <div class="overlay" id="communityAuthOverlay"><form class="modal" id="communityAuthForm"><button type="button" class="x" id="communityAuthClose">×</button><small>SUPABASE ACCOUNT</small><h2 id="communityAuthTitle">ورود به حساب</h2><label id="communityGameNameWrap" class="community-game-name hidden" style="display:none">نام داخل بازی (فقط هنگام ثبت‌نام)<input type="text" name="display_name" minlength="3" maxlength="24" pattern="[A-Za-z0-9_آ-ی ]+" autocomplete="nickname" placeholder="مثلاً Karaso_Player"></label><label>ایمیل<input type="email" name="email" required></label><label>رمز عبور<input type="password" name="password" minlength="6" required></label><button class="cta full" type="submit" id="communityAuthSubmit">ورود</button><button type="button" class="secondary full" id="communityAuthToggle">حساب ندارم؛ ثبت‌نام</button><button type="button" class="secondary full" id="communityForgotPassword">فراموشی رمز عبور</button><p class="form-error" id="communityAuthError"></p></form></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./community.js?v=20261120-name-visibility-final"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./community.js?v=20261120-longtext"></script>
 </body></html>
