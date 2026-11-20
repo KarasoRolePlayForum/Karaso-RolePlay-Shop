@@ -32,14 +32,15 @@ function selectCategory(id){
 async function refreshSession(s){session=s;role='customer';if(s?.user){const {data}=await sb.from('profiles').select('role').eq('id',s.user.id).maybeSingle();role=data?.role||'customer'}$('#communityAuthState').textContent=s?.user?'وارد حساب هستید':'برای مشارکت وارد حساب شو';$('#communityLogin').classList.toggle('hidden',!!s?.user);$('#communityLogout').classList.toggle('hidden',!s?.user);$('#ownerPanelLink').classList.toggle('hidden',!['owner','admin'].includes(role));$('#newTopicBtn').classList.toggle('hidden',role!=='owner');loadTopics();loadTickets()}
 function setCommunityAuthMode(mode){
  authMode=mode;
- $('#communityAuthTitle').textContent=mode==='login'?'ورود به حساب':mode==='signup'?'ساخت حساب':'تکمیل مشخصات حساب';
- $('#communityAuthSubmit').textContent=mode==='login'?'ورود':mode==='signup'?'ثبت‌نام':'ثبت نام نام درون‌بازی';
- $('#communityAuthToggle').classList.toggle('hidden',mode==='complete-profile');
- $('#communityForgotPassword').classList.toggle('hidden',mode==='complete-profile');
+ $('#communityAuthTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب';
+ $('#communityAuthSubmit').textContent=mode==='login'?'ورود':'ثبت‌نام';
+ $('#communityAuthToggle').classList.remove('hidden');
+ $('#communityForgotPassword').classList.remove('hidden');
  const wrap=$('#communityGameNameWrap');
- wrap.classList.remove('hidden');
- wrap.querySelector('input').required=mode==='signup'||mode==='complete-profile';
- wrap.querySelector('input').placeholder=mode==='login'?'اگر قبلاً نام ثبت نکرده‌ای، اینجا وارد کن':'مثلاً Karaso_Player';
+ wrap.classList.toggle('hidden',mode!=='signup');
+ wrap.querySelector('input').required=mode==='signup';
+ wrap.querySelector('input').value='';
+ wrap.querySelector('input').placeholder='مثلاً Karaso_Player';
  $('#communityAuthError').textContent='';
 }
 function openAuth(){setCommunityAuthMode('login');$('#communityAuthOverlay').classList.add('show')}
@@ -52,33 +53,16 @@ $('#communityAuthForm').onsubmit=async e=>{
  const f=new FormData(e.currentTarget),email=String(f.get('email')||'').trim(),password=String(f.get('password')||''),displayName=String(f.get('display_name')||'').trim();
  const submit=$('#communityAuthSubmit');submit.disabled=true;$('#communityAuthError').textContent='';
  try{
-  if(authMode==='complete-profile'){
-   if(!displayName)throw new Error('برای ادامه، نام درون‌بازی را وارد کن.');
-   const u=(await sb.auth.getUser()).data.user;
-   if(!u)throw new Error('نشست ورود پیدا نشد؛ دوباره وارد شو.');
-   await saveCommunityGameName(u.id,displayName);
-   $('#communityAuthOverlay').classList.remove('show');await refreshSession((await sb.auth.getSession()).data.session);return;
-  }
   const mode=authMode;
+  if(mode==='signup'&&!displayName)throw new Error('نام داخل بازی را وارد کن.');
   const r=mode==='login'?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
   if(r.error)throw r.error;
-  if(mode==='signup'&&!r.data.session){$('#communityAuthError').textContent='ثبت‌نام انجام شد اما تأیید ایمیل در Supabase فعال است. پس از تأیید ایمیل وارد شو.';return}
-  if(r.data.user){
-   const {data:profile,error:profileReadError}=await sb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
-   if(profileReadError)throw profileReadError;
-   const savedName=String(profile?.display_name||'').trim();
-   // On login, keep an existing saved name unchanged. Ask only once if none exists.
-   const chosenName=mode==='login'?(savedName||displayName):displayName;
-   if(!chosenName){
-    setCommunityAuthMode('complete-profile');
-    $('#communityAuthError').textContent='این اولین ورود شماست؛ نام درون‌بازی را وارد کن تا برای دفعات بعد ذخیره شود.';
-    return;
-   }
-   if(mode==='signup'||!savedName){
-    await saveCommunityGameName(r.data.user.id,chosenName);
-   }
+  if(mode==='signup'){
+   if(!r.data.session){$('#communityAuthError').textContent='ثبت‌نام انجام شد؛ ایمیلت را تأیید کن و سپس وارد شو.';return}
+   await saveCommunityGameName(r.data.user.id,displayName);
   }
-  $('#communityAuthOverlay').classList.remove('show');await refreshSession(r.data.session);
+  $('#communityAuthOverlay').classList.remove('show');
+  await refreshSession(r.data.session);
  }catch(err){$('#communityAuthError').textContent=err.message}
  finally{submit.disabled=false}
 };

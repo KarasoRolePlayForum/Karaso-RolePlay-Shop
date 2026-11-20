@@ -6,7 +6,9 @@ async function bootForumAdmin(){const {data:{session}}=await fsb.auth.getSession
  const {data:profile,error}=await fsb.from('profiles').select('role').eq('id',session.user.id).maybeSingle();
  if(error||!profile||!['owner','admin'].includes(profile.role)){location.replace('./community.html');return}
  fRole=profile.role;f$('#forumAdminWho').textContent=fRole==='owner'?'دسترسی Owner':'دسترسی مدیر انجمن';
- f$('#forumAdminLoading').classList.add('hidden');f$('#forumAdmin').classList.remove('hidden');await loadForumTopics();
+ f$('#forumAdminLoading').classList.add('hidden');f$('#forumAdmin').classList.remove('hidden');
+ await loadForumTopics();
+ if(fRole==='owner'){f$('#ownerTicketsSection').classList.remove('hidden');await loadOwnerTickets();}
 }
 async function loadForumTopics(){f$('#faError').textContent='';const {data,error}=await fsb.from('forum_topics').select('id,title,body,category,is_locked,created_at,created_by').order('created_at',{ascending:false});
  if(error){f$('#faError').textContent='دریافت موضوعات ناموفق بود: '+error.message;return}

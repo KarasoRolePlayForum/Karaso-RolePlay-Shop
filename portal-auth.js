@@ -7,9 +7,10 @@ function portalOpen(mode='login'){
  p$('#portalAuthToggle').classList.remove('hidden');p$('#portalForgot').classList.remove('hidden');
  p$('#portalAuthToggle').textContent=mode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';
  const nameWrap=p$('#portalGameNameWrap'),nameInput=p$('#portalAuthForm [name=display_name]');
- nameWrap.classList.remove('hidden');
+ nameWrap.classList.toggle('hidden',mode!=='signup');
  nameInput.required=mode==='signup';
- nameInput.placeholder=mode==='login'?'اگر نامت قبلاً ذخیره نشده، اینجا وارد کن':'مثلاً Karaso_Player';
+ nameInput.value='';
+ nameInput.placeholder='مثلاً Karaso_Player';
  p$('#portalAuthError').textContent='';
  p$('#portalAuthOverlay').classList.add('show');
 }
@@ -57,36 +58,12 @@ p$('#portalAuthForm').onsubmit=async e=>{
  const b=p$('#portalAuthSubmit');b.disabled=true;p$('#portalAuthError').textContent='';
  try{
   const mode=portalMode;
-  if(mode==='complete-profile'){
-   const {data:{user},error:userError}=await portalSb.auth.getUser();
-   if(userError)throw userError;
-   if(!user)throw new Error('نشست ورود پیدا نشد؛ دوباره وارد حساب شو.');
-   if(!displayName)throw new Error('نام درون‌بازی را وارد کن.');
-   await portalSaveGameName(user.id,displayName);
-   p$('#portalAuthOverlay').classList.remove('show');
-   await portalRefresh((await portalSb.auth.getSession()).data.session);
-   return;
-  }
-  const r=mode==='login'
-   ?await portalSb.auth.signInWithPassword({email,password})
-   :await portalSb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
+  if(mode==='signup'&&!displayName)throw new Error('نام داخل بازی را وارد کن.');
+  const r=mode==='login'?await portalSb.auth.signInWithPassword({email,password}):await portalSb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
   if(r.error)throw r.error;
-  if(mode==='signup'&&!r.data.session){p$('#portalAuthError').textContent='ثبت‌نام انجام شد اما Supabase هنوز تأیید ایمیل را اجباری کرده. پس از تأیید ایمیل وارد شو.';return}
-  if(r.data.user){
-   const {data:profile,error:readError}=await portalSb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
-   if(readError)throw readError;
-   const savedName=String(profile?.display_name||'').trim();
-   if(mode==='signup'){
-    await portalSaveGameName(r.data.user.id,displayName);
-   }else if(!savedName){
-    portalMode='complete-profile';
-    p$('#portalAuthTitle').textContent='تکمیل نام درون‌بازی';
-    p$('#portalAuthSubmit').textContent='ذخیره نام';
-    p$('#portalAuthToggle').classList.add('hidden');
-    p$('#portalForgot').classList.add('hidden');
-    p$('#portalAuthError').textContent='ورود انجام شد؛ فقط یک‌بار نام درون‌بازی را وارد کن تا ذخیره شود. ایمیل نمایش داده نخواهد شد.';
-    return;
-   }
+  if(mode==='signup'){
+   if(!r.data.session){p$('#portalAuthError').textContent='ثبت‌نام انجام شد؛ ایمیلت را تأیید کن و سپس وارد شو.';return}
+   await portalSaveGameName(r.data.user.id,displayName);
   }
   p$('#portalAuthOverlay').classList.remove('show');
   await portalRefresh(r.data.session);

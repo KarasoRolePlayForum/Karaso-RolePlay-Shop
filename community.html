@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KARASO ROLEPLAY | انجمن</title>
-<link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./community.css?v=20261120-topic-only">
+<link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./community.css?v=20261120-signup-name-only">
 </head>
 <body class="kr-forum">
 <header class="top kr-top">
@@ -12,7 +12,7 @@
 <div class="account-area"><span id="communityAuthState">در حال بررسی حساب...</span><button class="admin-link" id="communityLogin">ورود / ثبت‌نام</button><button class="admin-link hidden" id="communityLogout">خروج</button><a class="admin-link hidden" id="ownerPanelLink" href="./forum-admin.html">پنل مدیریت</a></div>
 </header>
 <main class="kr-forum-wrap">
-<div class="kr-noticebar"><span>کانال روبیکا کاراسو رول‌پلی</span><span>وب‌سایت و راهنمای سرور</span></div>
+<div class="kr-noticebar"><a href="https://rubika.ir/Samp_KarasoRolePlay" target="_blank" rel="noopener noreferrer">کانال روبیکا کاراسو رول‌پلی: @Samp_KarasoRolePlay</a><span>وب‌سایت و راهنمای سرور</span></div>
 <section class="kr-grid">
 <aside class="kr-side kr-left">
 <section class="kr-panel"><h3><i>♙</i> تیم انجمن</h3><div id="forumTeam" class="kr-panel-body"><div class="kr-person"><b class="kr-avatar">K</b><span><strong>تیم مدیریت کاراسو</strong><small>مدیریت انجمن</small></span></div><p class="kr-muted">برای مشاهده امکانات مدیریتی وارد حساب خود شوید.</p></div></section>
@@ -37,6 +37,6 @@
 </aside>
 </section>
 </main>
-<div class="overlay" id="communityAuthOverlay"><form class="modal" id="communityAuthForm"><button type="button" class="x" id="communityAuthClose">×</button><small>SUPABASE ACCOUNT</small><h2 id="communityAuthTitle">ورود به حساب</h2><label id="communityGameNameWrap" class="community-game-name">نام درون‌بازی شما (در اولین ورود ذخیره می‌شود)<input type="text" name="display_name" minlength="3" maxlength="24" pattern="[A-Za-z0-9_آ-ی ]+" autocomplete="nickname" placeholder="مثلاً Karaso_Player"></label><label>ایمیل<input type="email" name="email" required></label><label>رمز عبور<input type="password" name="password" minlength="6" required></label><button class="cta full" type="submit" id="communityAuthSubmit">ورود</button><button type="button" class="secondary full" id="communityAuthToggle">حساب ندارم؛ ثبت‌نام</button><button type="button" class="secondary full" id="communityForgotPassword">فراموشی رمز عبور</button><p class="form-error" id="communityAuthError"></p></form></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./community.js?v=20261120-topic-only"></script>
+<div class="overlay" id="communityAuthOverlay"><form class="modal" id="communityAuthForm"><button type="button" class="x" id="communityAuthClose">×</button><small>SUPABASE ACCOUNT</small><h2 id="communityAuthTitle">ورود به حساب</h2><label id="communityGameNameWrap" class="community-game-name">نام داخل بازی (فقط هنگام ثبت‌نام)<input type="text" name="display_name" minlength="3" maxlength="24" pattern="[A-Za-z0-9_آ-ی ]+" autocomplete="nickname" placeholder="مثلاً Karaso_Player"></label><label>ایمیل<input type="email" name="email" required></label><label>رمز عبور<input type="password" name="password" minlength="6" required></label><button class="cta full" type="submit" id="communityAuthSubmit">ورود</button><button type="button" class="secondary full" id="communityAuthToggle">حساب ندارم؛ ثبت‌نام</button><button type="button" class="secondary full" id="communityForgotPassword">فراموشی رمز عبور</button><p class="form-error" id="communityAuthError"></p></form></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./community.js?v=20261120-signup-name-only"></script>
 </body></html>
