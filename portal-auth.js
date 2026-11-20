@@ -4,6 +4,7 @@ function portalOpen(mode='login'){
  portalMode=mode;
  p$('#portalAuthTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب جدید';
  p$('#portalAuthSubmit').textContent=mode==='login'?'ورود':'ثبت‌نام';
+ p$('#portalAuthToggle').classList.remove('hidden');p$('#portalForgot').classList.remove('hidden');
  p$('#portalAuthToggle').textContent=mode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';
  const nameWrap=p$('#portalGameNameWrap'),nameInput=p$('#portalAuthForm [name=display_name]');
  nameWrap.classList.remove('hidden');
@@ -14,12 +15,32 @@ function portalOpen(mode='login'){
 }
 async function portalRefresh(session){
  const user=session?.user;
- p$('#portalAuthState').textContent=user?`وارد شده: ${user.email}`:'وارد حساب نشده‌اید';
  p$('#portalAuthOpen').classList.toggle('hidden',!!user);
  p$('#portalAuthLogout').classList.toggle('hidden',!user);
  p$('#portalShopAdmin').classList.add('hidden');p$('#portalForumAdmin').classList.add('hidden');
- if(user){const {data}=await portalSb.from('profiles').select('role').eq('id',user.id).maybeSingle();if(['owner','admin'].includes(data?.role)){p$('#portalShopAdmin').classList.remove('hidden');p$('#portalForumAdmin').classList.remove('hidden')}}
+ if(!user){p$('#portalAuthState').textContent='وارد حساب نشده‌اید';return}
+ let profile=null;
+ try{
+  const {data,error}=await portalSb.from('profiles').select('display_name,role').eq('id',user.id).maybeSingle();
+  if(error)throw error;
+  profile=data;
+ }catch(error){console.error('Profile read failed:',error)}
+ const displayName=String(profile?.display_name||'').trim();
+ p$('#portalAuthState').textContent=displayName?`بازیکن: ${displayName}`:'حساب فعال است';
+ if(['owner','admin'].includes(profile?.role)){p$('#portalShopAdmin').classList.remove('hidden');p$('#portalForumAdmin').classList.remove('hidden')}
 }
+async function portalSaveGameName(userId,displayName){
+ const {data:existing,error:readError}=await portalSb.from('profiles').select('id').eq('id',userId).maybeSingle();
+ if(readError)throw readError;
+ if(existing){
+  const {error}=await portalSb.from('profiles').update({display_name:displayName}).eq('id',userId);
+  if(error)throw error;
+ }else{
+  const {error}=await portalSb.from('profiles').insert({id:userId,display_name:displayName,role:'customer'});
+  if(error)throw error;
+ }
+}
+
 p$('#portalAuthOpen').onclick=()=>portalOpen('login');
 p$('#portalAuthClose').onclick=()=>p$('#portalAuthOverlay').classList.remove('show');
 p$('#portalAuthToggle').onclick=()=>portalOpen(portalMode==='login'?'signup':'login');
@@ -36,6 +57,16 @@ p$('#portalAuthForm').onsubmit=async e=>{
  const b=p$('#portalAuthSubmit');b.disabled=true;p$('#portalAuthError').textContent='';
  try{
   const mode=portalMode;
+  if(mode==='complete-profile'){
+   const {data:{user},error:userError}=await portalSb.auth.getUser();
+   if(userError)throw userError;
+   if(!user)throw new Error('نشست ورود پیدا نشد؛ دوباره وارد حساب شو.');
+   if(!displayName)throw new Error('نام درون‌بازی را وارد کن.');
+   await portalSaveGameName(user.id,displayName);
+   p$('#portalAuthOverlay').classList.remove('show');
+   await portalRefresh((await portalSb.auth.getSession()).data.session);
+   return;
+  }
   const r=mode==='login'
    ?await portalSb.auth.signInWithPassword({email,password})
    :await portalSb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
@@ -45,15 +76,16 @@ p$('#portalAuthForm').onsubmit=async e=>{
    const {data:profile,error:readError}=await portalSb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
    if(readError)throw readError;
    const savedName=String(profile?.display_name||'').trim();
-   // Preserve an existing profile name; collect and save it only when it is missing.
-   const chosenName=mode==='login'?(savedName||displayName):displayName;
-   if(!chosenName){
-    p$('#portalAuthError').textContent='نام درون‌بازی هنوز برای این حساب ذخیره نشده است. نامت را در کادر بالا وارد کن و دوباره روی ورود بزن.';
+   if(mode==='signup'){
+    await portalSaveGameName(r.data.user.id,displayName);
+   }else if(!savedName){
+    portalMode='complete-profile';
+    p$('#portalAuthTitle').textContent='تکمیل نام درون‌بازی';
+    p$('#portalAuthSubmit').textContent='ذخیره نام';
+    p$('#portalAuthToggle').classList.add('hidden');
+    p$('#portalForgot').classList.add('hidden');
+    p$('#portalAuthError').textContent='ورود انجام شد؛ فقط یک‌بار نام درون‌بازی را وارد کن تا ذخیره شود. ایمیل نمایش داده نخواهد شد.';
     return;
-   }
-   if(mode==='signup'||!savedName){
-    const {error:saveError}=await portalSb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
-    if(saveError)throw saveError;
    }
   }
   p$('#portalAuthOverlay').classList.remove('show');

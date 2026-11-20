@@ -3,6 +3,12 @@ const $=s=>document.querySelector(s);let session=null,role='customer',category='
 const categories=[['all','همه موضوعات'],['announcements','اطلاعیه‌ها و اخبار'],['rules','قوانین و آموزش‌ها'],['admin_apps','درخواست مدیریت'],['helper_apps','درخواست هلپر'],['leader_apps','درخواست لیدری'],['factions','سازمان‌ها و فکشن‌ها'],['gangs','گنگ‌ها'],['resignations','درخواست استعفا'],['reports','گزارش کار'],['complaints','شکایات']];
 const roleLabel=r=>r==='owner'?'Owner':r==='admin'?'مدیر':'عضو عادی';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function saveCommunityGameName(userId,displayName){
+ const {data:existing,error:readError}=await sb.from('profiles').select('id').eq('id',userId).maybeSingle();
+ if(readError)throw readError;
+ if(existing){const {error}=await sb.from('profiles').update({display_name:displayName}).eq('id',userId);if(error)throw error;}
+ else{const {error}=await sb.from('profiles').insert({id:userId,display_name:displayName,role:'customer'});if(error)throw error;}
+}
 function renderCategories(){
  const box=$('#categoryGrid'); if(!box)return;
  const groups=[
@@ -50,8 +56,7 @@ $('#communityAuthForm').onsubmit=async e=>{
    if(!displayName)throw new Error('برای ادامه، نام درون‌بازی را وارد کن.');
    const u=(await sb.auth.getUser()).data.user;
    if(!u)throw new Error('نشست ورود پیدا نشد؛ دوباره وارد شو.');
-   const {error}=await sb.from('profiles').upsert({id:u.id,display_name:displayName},{onConflict:'id'});
-   if(error)throw error;
+   await saveCommunityGameName(u.id,displayName);
    $('#communityAuthOverlay').classList.remove('show');await refreshSession((await sb.auth.getSession()).data.session);return;
   }
   const mode=authMode;
@@ -70,8 +75,7 @@ $('#communityAuthForm').onsubmit=async e=>{
     return;
    }
    if(mode==='signup'||!savedName){
-    const {error:profileError}=await sb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
-    if(profileError)throw profileError;
+    await saveCommunityGameName(r.data.user.id,chosenName);
    }
   }
   $('#communityAuthOverlay').classList.remove('show');await refreshSession(r.data.session);

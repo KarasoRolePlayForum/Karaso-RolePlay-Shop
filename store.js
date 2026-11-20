@@ -9,7 +9,21 @@ function card(p,vehicle=false){return `<article class="item"><div class="item-ar
 function renderProducts(f='all'){$('#products').innerHTML=products.filter(p=>f==='all'||p.category===f).map(p=>card(p)).join('');$('#products').querySelectorAll('button').forEach(b=>b.onclick=()=>openOrder(products.find(p=>p.id===b.dataset.id)))}
 function renderVehicles(f='all'){$('#vehiclesGrid').innerHTML=vehicles.filter(p=>f==='all'||p.category===f||(f==='car'&&p.category==='vip')).map(p=>card(p,true)).join('');$('#vehiclesGrid').querySelectorAll('button').forEach(b=>b.onclick=()=>openOrder(vehicles.find(p=>p.id===b.dataset.id)))}
 function bindTabs(id,fn){document.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>{document.querySelectorAll(`#${id} button`).forEach(x=>x.classList.remove('active'));b.classList.add('active');fn(b.dataset.filter)})}
-async function updateAuth(session){currentSession=session;const user=session?.user;$('#authState').textContent=user?`وارد شده: ${user.email}`:'برای ثبت سفارش وارد حساب شو';$('#authOpen').classList.toggle('hidden',!!user);$('#authLogout').classList.toggle('hidden',!user);const adminLink=$('#adminLink'),forumLink=$('#forumAdminLink');if(adminLink)adminLink.classList.add('hidden');if(forumLink)forumLink.classList.add('hidden');if(user){try{const {data,error}=await sb.from('profiles').select('role').eq('id',user.id).maybeSingle();if(!error&&data&&['owner','admin'].includes(data.role)){adminLink?.classList.remove('hidden');forumLink?.classList.remove('hidden')}}catch(_){/* Fail closed: keep admin links hidden. */}}}
+async function updateAuth(session){
+ currentSession=session;const user=session?.user;
+ $('#authOpen').classList.toggle('hidden',!!user);$('#authLogout').classList.toggle('hidden',!user);
+ const adminLink=$('#adminLink'),forumLink=$('#forumAdminLink');
+ if(adminLink)adminLink.classList.add('hidden');if(forumLink)forumLink.classList.add('hidden');
+ if(!user){$('#authState').textContent='برای ثبت سفارش وارد حساب شو';return}
+ $('#authState').textContent='حساب فعال است';
+ try{
+  const {data,error}=await sb.from('profiles').select('display_name,role').eq('id',user.id).maybeSingle();
+  if(error)throw error;
+  const name=String(data?.display_name||'').trim();
+  $('#authState').textContent=name?`بازیکن: ${name}`:'حساب فعال است';
+  if(['owner','admin'].includes(data?.role)){adminLink?.classList.remove('hidden');forumLink?.classList.remove('hidden')}
+ }catch(error){console.error('Profile read failed:',error)}
+}
 function openOrder(p){selected=p;$('#selectedProduct').textContent=`${p.name} — ${fmt(p.price)} ${p.unit||(p.category==='car'||p.category==='bike'||p.category==='vip'?'تومان':'هزار تومان')}`;$('#orderForm').reset();$('#formError').textContent='';if(!currentSession){$('#orderOverlay').classList.remove('show');openAuth();$('#authError').textContent='برای ثبت سفارش ابتدا وارد حساب کاربری شو.';return}$('#orderOverlay').classList.add('show')}
 function openAuth(){window.location.href='./index.html?auth=login&return=shop'}
 $('#authOpen').onclick=openAuth;$('#authClose').onclick=()=>$('#authOverlay').classList.remove('show');$('#forgotPassword').onclick=async()=>{const email=$('#authForm [name=email]').value.trim();if(!email){$('#authError').textContent='ابتدا ایمیلت را وارد کن.';return}const redirectTo=location.origin+location.pathname.replace(/[^/]*$/,'')+'password-reset.html';const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});$('#authError').textContent=error?error.message:'لینک بازیابی رمز عبور به ایمیلت ارسال شد. پوشه Spam را هم بررسی کن.'};$('#authToggle').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('#authTitle').textContent=authMode==='login'?'ورود به حساب':'ساخت حساب جدید';$('#authSubmit').textContent=authMode==='login'?'ورود':'ثبت‌نام';$('#authToggle').textContent=authMode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';$('#authError').textContent=''};
