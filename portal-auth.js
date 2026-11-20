@@ -1,10 +1,69 @@
 const portalSb=window.supabase.createClient(window.KARASO_SUPABASE_URL,window.KARASO_SUPABASE_PUBLISHABLE_KEY,window.KARASO_SUPABASE_AUTH_OPTIONS);
 const p$=s=>document.querySelector(s);let portalMode='login';
-function portalOpen(mode='login'){portalMode=mode;p$('#portalAuthTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب جدید';p$('#portalAuthSubmit').textContent=mode==='login'?'ورود':'ثبت‌نام';p$('#portalAuthToggle').textContent=mode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';p$('#portalGameNameWrap').classList.toggle('hidden',mode!=='signup');p$('#portalAuthForm [name=display_name]').required=mode==='signup';p$('#portalAuthError').textContent='';p$('#portalAuthOverlay').classList.add('show')}
-async function portalRefresh(session){const user=session?.user;p$('#portalAuthState').textContent=user?`وارد شده: ${user.email}`:'وارد حساب نشده‌اید';p$('#portalAuthOpen').classList.toggle('hidden',!!user);p$('#portalAuthLogout').classList.toggle('hidden',!user);p$('#portalShopAdmin').classList.add('hidden');p$('#portalForumAdmin').classList.add('hidden');if(user){const {data}=await portalSb.from('profiles').select('role').eq('id',user.id).maybeSingle();if(['owner','admin'].includes(data?.role)){p$('#portalShopAdmin').classList.remove('hidden');p$('#portalForumAdmin').classList.remove('hidden')}}}
-p$('#portalAuthOpen').onclick=()=>portalOpen('login');p$('#portalAuthClose').onclick=()=>p$('#portalAuthOverlay').classList.remove('show');p$('#portalAuthToggle').onclick=()=>portalOpen(portalMode==='login'?'signup':'login');
-p$('#portalForgot').onclick=async()=>{const email=p$('#portalAuthForm [name=email]').value.trim();if(!email){p$('#portalAuthError').textContent='ابتدا ایمیل را وارد کن.';return}const redirectTo=location.origin+location.pathname.replace(/[^/]*$/,'')+'password-reset.html';const {error}=await portalSb.auth.resetPasswordForEmail(email,{redirectTo});p$('#portalAuthError').textContent=error?error.message:'لینک بازیابی رمز عبور به ایمیلت ارسال شد.'};
-p$('#portalAuthForm').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.currentTarget),email=String(fd.get('email')).trim(),password=String(fd.get('password')),displayName=String(fd.get('display_name')||'').trim();const b=p$('#portalAuthSubmit');b.disabled=true;p$('#portalAuthError').textContent='';try{const r=portalMode==='login'?await portalSb.auth.signInWithPassword({email,password}):await portalSb.auth.signUp({email,password,options:{data:{display_name:displayName}}});if(r.error)throw r.error;if(portalMode==='signup'&&!r.data.session){p$('#portalAuthError').textContent='ثبت‌نام انجام شد اما Supabase هنوز تأیید ایمیل را اجباری کرده. تنظیم Confirm email را خاموش کن.';return}if(portalMode==='signup'&&r.data.user){const {error:profileError}=await portalSb.from('profiles').upsert({id:r.data.user.id,display_name:displayName},{onConflict:'id'});if(profileError)throw profileError;}p$('#portalAuthOverlay').classList.remove('show');await portalRefresh(r.data.session);const dest=new URLSearchParams(location.search).get('return');if(['shop','community'].includes(dest))location.href='./'+dest+'.html'}catch(err){p$('#portalAuthError').textContent=err.message}finally{b.disabled=false}};
+function portalOpen(mode='login'){
+ portalMode=mode;
+ p$('#portalAuthTitle').textContent=mode==='login'?'ورود به حساب':'ساخت حساب جدید';
+ p$('#portalAuthSubmit').textContent=mode==='login'?'ورود':'ثبت‌نام';
+ p$('#portalAuthToggle').textContent=mode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود';
+ const nameWrap=p$('#portalGameNameWrap'),nameInput=p$('#portalAuthForm [name=display_name]');
+ nameWrap.classList.remove('hidden');
+ nameInput.required=mode==='signup';
+ nameInput.placeholder=mode==='login'?'اگر نامت قبلاً ذخیره نشده، اینجا وارد کن':'مثلاً Karaso_Player';
+ p$('#portalAuthError').textContent='';
+ p$('#portalAuthOverlay').classList.add('show');
+}
+async function portalRefresh(session){
+ const user=session?.user;
+ p$('#portalAuthState').textContent=user?`وارد شده: ${user.email}`:'وارد حساب نشده‌اید';
+ p$('#portalAuthOpen').classList.toggle('hidden',!!user);
+ p$('#portalAuthLogout').classList.toggle('hidden',!user);
+ p$('#portalShopAdmin').classList.add('hidden');p$('#portalForumAdmin').classList.add('hidden');
+ if(user){const {data}=await portalSb.from('profiles').select('role').eq('id',user.id).maybeSingle();if(['owner','admin'].includes(data?.role)){p$('#portalShopAdmin').classList.remove('hidden');p$('#portalForumAdmin').classList.remove('hidden')}}
+}
+p$('#portalAuthOpen').onclick=()=>portalOpen('login');
+p$('#portalAuthClose').onclick=()=>p$('#portalAuthOverlay').classList.remove('show');
+p$('#portalAuthToggle').onclick=()=>portalOpen(portalMode==='login'?'signup':'login');
+p$('#portalForgot').onclick=async()=>{
+ const email=p$('#portalAuthForm [name=email]').value.trim();
+ if(!email){p$('#portalAuthError').textContent='ابتدا ایمیل را وارد کن.';return}
+ const redirectTo=location.origin+location.pathname.replace(/[^/]*$/,'')+'password-reset.html';
+ const {error}=await portalSb.auth.resetPasswordForEmail(email,{redirectTo});
+ p$('#portalAuthError').textContent=error?error.message:'لینک بازیابی رمز عبور به ایمیلت ارسال شد.';
+};
+p$('#portalAuthForm').onsubmit=async e=>{
+ e.preventDefault();
+ const fd=new FormData(e.currentTarget),email=String(fd.get('email')||'').trim(),password=String(fd.get('password')||''),displayName=String(fd.get('display_name')||'').trim();
+ const b=p$('#portalAuthSubmit');b.disabled=true;p$('#portalAuthError').textContent='';
+ try{
+  const mode=portalMode;
+  const r=mode==='login'
+   ?await portalSb.auth.signInWithPassword({email,password})
+   :await portalSb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
+  if(r.error)throw r.error;
+  if(mode==='signup'&&!r.data.session){p$('#portalAuthError').textContent='ثبت‌نام انجام شد اما Supabase هنوز تأیید ایمیل را اجباری کرده. پس از تأیید ایمیل وارد شو.';return}
+  if(r.data.user){
+   const {data:profile,error:readError}=await portalSb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
+   if(readError)throw readError;
+   const savedName=String(profile?.display_name||'').trim();
+   // Preserve an existing profile name; collect and save it only when it is missing.
+   const chosenName=mode==='login'?(savedName||displayName):displayName;
+   if(!chosenName){
+    p$('#portalAuthError').textContent='نام درون‌بازی هنوز برای این حساب ذخیره نشده است. نامت را در کادر بالا وارد کن و دوباره روی ورود بزن.';
+    return;
+   }
+   if(mode==='signup'||!savedName){
+    const {error:saveError}=await portalSb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
+    if(saveError)throw saveError;
+   }
+  }
+  p$('#portalAuthOverlay').classList.remove('show');
+  await portalRefresh(r.data.session);
+  const dest=new URLSearchParams(location.search).get('return');
+  if(['shop','community'].includes(dest))location.href='./'+dest+'.html';
+ }catch(err){p$('#portalAuthError').textContent=err.message}
+ finally{b.disabled=false}
+};
 p$('#portalAuthLogout').onclick=async()=>{await portalSb.auth.signOut();await portalRefresh(null)};
-portalSb.auth.getSession().then(({data})=>portalRefresh(data.session));portalSb.auth.onAuthStateChange((_e,s)=>{portalRefresh(s)});
+portalSb.auth.getSession().then(({data})=>portalRefresh(data.session));
+portalSb.auth.onAuthStateChange((_e,s)=>{portalRefresh(s)});
 if(location.hash==='#auth'||new URLSearchParams(location.search).get('auth'))setTimeout(()=>portalOpen(new URLSearchParams(location.search).get('auth')==='signup'?'signup':'login'),150);

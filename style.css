@@ -176,3 +176,11 @@ body{background:radial-gradient(ellipse at 50% -20%,#4a302622,transparent 55%),#
 
 .portal-account{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.portal-account #portalAuthState{font-size:11px;color:#c9bfc9}.portal-account .portal-btn{font-size:11px;padding:9px 13px}.portal-body .overlay{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}.portal-body .overlay.show{display:flex}.portal-body .modal{position:relative;background:#211923;border:1px solid #765333;border-radius:14px;padding:24px;width:min(100%,390px);color:#fff;display:grid;gap:12px}.portal-body .modal label{font-size:12px;display:grid;gap:6px}.portal-body .modal input{padding:12px;border-radius:8px;background:#111014;border:1px solid #504553;color:white}.portal-body .modal .x{position:absolute;left:12px;top:10px;background:none;color:white;border:0;font-size:24px}.portal-body .modal .full{width:100%}.portal-body .hidden{display:none!important}
 @media(max-width:760px){.portal-account{width:100%;justify-content:center}.portal-top{flex-wrap:wrap;justify-content:center}}
+
+/* Main portal: keep the game-name field visible in both login and signup */
+#portalAuthForm #portalGameNameWrap{display:block!important;visibility:visible!important;opacity:1!important}
+#portalAuthForm #portalGameNameWrap input{display:block!important;width:100%;box-sizing:border-box;min-height:44px}
+@media(max-width:600px){
+ #portalAuthForm #portalGameNameWrap{display:block!important}
+ #portalAuthForm #portalGameNameWrap input{font-size:16px;min-height:48px}
+}
