@@ -24,9 +24,55 @@ function selectCategory(id){
  loadTopics();
 }
 async function refreshSession(s){session=s;role='customer';if(s?.user){const {data}=await sb.from('profiles').select('role').eq('id',s.user.id).maybeSingle();role=data?.role||'customer'}$('#communityAuthState').textContent=s?.user?'وارد حساب هستید':'برای مشارکت وارد حساب شو';$('#communityLogin').classList.toggle('hidden',!!s?.user);$('#communityLogout').classList.toggle('hidden',!s?.user);$('#ownerPanelLink').classList.toggle('hidden',!['owner','admin'].includes(role));$('#newTopicBtn').classList.toggle('hidden',role!=='owner');loadTopics();loadTickets()}
-function openAuth(){authMode='login';$('#communityAuthTitle').textContent='ورود به حساب';$('#communityAuthSubmit').textContent='ورود';$('#communityAuthToggle').textContent='حساب ندارم؛ ثبت‌نام';$('#communityAuthError').textContent='';$('#communityAuthOverlay').classList.add('show')}
-$('#communityForgotPassword').onclick=async()=>{const email=$('#communityAuthForm [name=email]').value.trim();if(!email){$('#communityAuthError').textContent='ابتدا ایمیلت را وارد کن.';return}const redirectTo=location.origin+location.pathname.replace(/[^/]*$/,'')+'password-reset.html';const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});$('#communityAuthError').textContent=error?error.message:'لینک بازیابی رمز عبور به ایمیلت ارسال شد. پوشه Spam را هم بررسی کن.'};$('#communityLogin').onclick=openAuth;$('#communityAuthClose').onclick=()=>$('#communityAuthOverlay').classList.remove('show');$('#communityAuthToggle').onclick=()=>{authMode=authMode==='login'?'signup':'login';$('#communityAuthTitle').textContent=authMode==='login'?'ورود به حساب':'ساخت حساب';$('#communityAuthSubmit').textContent=authMode==='login'?'ورود':'ثبت‌نام';$('#communityAuthToggle').textContent=authMode==='login'?'حساب ندارم؛ ثبت‌نام':'قبلاً حساب ساخته‌ام؛ ورود'};
-$('#communityAuthForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.currentTarget);try{const r=authMode==='login'?await sb.auth.signInWithPassword({email:f.get('email'),password:f.get('password')}):await sb.auth.signUp({email:f.get('email'),password:f.get('password')});if(r.error)throw r.error;if(authMode==='signup'&&!r.data.session){$('#communityAuthError').textContent='حساب ساخته شد؛ در صورت فعال بودن تأیید ایمیل، ایمیل را تأیید کن.';return}$('#communityAuthOverlay').classList.remove('show');await refreshSession(r.data.session)}catch(err){$('#communityAuthError').textContent=err.message}};
+function setCommunityAuthMode(mode){
+ authMode=mode;
+ $('#communityAuthTitle').textContent=mode==='login'?'ورود به حساب':mode==='signup'?'ساخت حساب':'تکمیل مشخصات حساب';
+ $('#communityAuthSubmit').textContent=mode==='login'?'ورود':mode==='signup'?'ثبت‌نام':'ثبت نام نام درون‌بازی';
+ $('#communityAuthToggle').classList.toggle('hidden',mode==='complete-profile');
+ $('#communityForgotPassword').classList.toggle('hidden',mode==='complete-profile');
+ const wrap=$('#communityGameNameWrap');
+ wrap.classList.toggle('hidden',mode==='login');
+ wrap.querySelector('input').required=mode!=='login';
+ $('#communityAuthError').textContent='';
+}
+function openAuth(){setCommunityAuthMode('login');$('#communityAuthOverlay').classList.add('show')}
+$('#communityForgotPassword').onclick=async()=>{const email=$('#communityAuthForm [name=email]').value.trim();if(!email){$('#communityAuthError').textContent='ابتدا ایمیلت را وارد کن.';return}const redirectTo=location.origin+location.pathname.replace(/[^/]*$/,'')+'password-reset.html';const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});$('#communityAuthError').textContent=error?error.message:'لینک بازیابی رمز عبور به ایمیلت ارسال شد. پوشه Spam را هم بررسی کن.'};
+$('#communityLogin').onclick=openAuth;
+$('#communityAuthClose').onclick=()=>$('#communityAuthOverlay').classList.remove('show');
+$('#communityAuthToggle').onclick=()=>setCommunityAuthMode(authMode==='login'?'signup':'login');
+$('#communityAuthForm').onsubmit=async e=>{
+ e.preventDefault();
+ const f=new FormData(e.currentTarget),email=String(f.get('email')||'').trim(),password=String(f.get('password')||''),displayName=String(f.get('display_name')||'').trim();
+ const submit=$('#communityAuthSubmit');submit.disabled=true;$('#communityAuthError').textContent='';
+ try{
+  if(authMode==='complete-profile'){
+   if(!displayName)throw new Error('برای ادامه، نام درون‌بازی را وارد کن.');
+   const u=(await sb.auth.getUser()).data.user;
+   if(!u)throw new Error('نشست ورود پیدا نشد؛ دوباره وارد شو.');
+   const {error}=await sb.from('profiles').upsert({id:u.id,display_name:displayName},{onConflict:'id'});
+   if(error)throw error;
+   $('#communityAuthOverlay').classList.remove('show');await refreshSession((await sb.auth.getSession()).data.session);return;
+  }
+  const mode=authMode;
+  const r=mode==='login'?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password,options:{data:{display_name:displayName}}});
+  if(r.error)throw r.error;
+  if(mode==='signup'&&!r.data.session){$('#communityAuthError').textContent='ثبت‌نام انجام شد اما تأیید ایمیل در Supabase فعال است. پس از تأیید ایمیل وارد شو.';return}
+  if(r.data.user){
+   const {data:profile,error:profileReadError}=await sb.from('profiles').select('display_name').eq('id',r.data.user.id).maybeSingle();
+   if(profileReadError)throw profileReadError;
+   const chosenName=mode==='signup'?displayName:String(profile?.display_name||'').trim();
+   if(!chosenName){
+    setCommunityAuthMode('complete-profile');
+    $('#communityAuthError').textContent='برای ادامه ورود به انجمن، نام درون‌بازی خودت را وارد کن.';
+    return;
+   }
+   const {error:profileError}=await sb.from('profiles').upsert({id:r.data.user.id,display_name:chosenName},{onConflict:'id'});
+   if(profileError)throw profileError;
+  }
+  $('#communityAuthOverlay').classList.remove('show');await refreshSession(r.data.session);
+ }catch(err){$('#communityAuthError').textContent=err.message}
+ finally{submit.disabled=false}
+};
 $('#communityLogout').onclick=async()=>{await sb.auth.signOut();await refreshSession(null)};
 async function loadTopics(){
  const {data,error}=await sb.from('forum_topics').select('id,title,body,category,is_locked,created_at,created_by').order('created_at',{ascending:false});
@@ -62,30 +108,10 @@ async function loadTopics(){
  }
  if(session?.user){const {data:prof}=await sb.from('profiles').select('display_name').eq('id',session.user.id).maybeSingle();const nm=prof?.display_name||'بازیکن';$('#forumTeam').innerHTML=`<div class="kr-person"><b class="kr-avatar">${esc(nm.slice(0,1))}</b><span><strong>${esc(nm)}</strong><small>${roleLabel(role)}</small></span></div><p class="kr-muted">وضعیت حساب شما در انجمن کاراسو</p>`;}
 }
-let topicDetailPlaceholder=null;
-function enterTopicFocus(){
- const detail=$('#topicDetail');
- if(!topicDetailPlaceholder){
-  topicDetailPlaceholder=document.createComment('topic-detail-home');
-  detail.parentNode.insertBefore(topicDetailPlaceholder,detail);
- }
- document.body.appendChild(detail);
- document.body.classList.add('kr-topic-focus');
-}
-function exitTopicFocus(){
- const detail=$('#topicDetail');
- if(topicDetailPlaceholder && topicDetailPlaceholder.parentNode){
-  topicDetailPlaceholder.parentNode.insertBefore(detail,topicDetailPlaceholder);
-  topicDetailPlaceholder.remove();
- }
- topicDetailPlaceholder=null;
- document.body.classList.remove('kr-topic-focus');
- detail.classList.add('hidden');
-}
-async function openTopic(id){activeTopic=id;enterTopicFocus();const {data:t,error}=await sb.from('forum_topics').select('*').eq('id',id).single();if(error)return;const {data:posts,error:pe}=await sb.from('forum_posts').select('*').eq('topic_id',id).order('created_at');if(pe){alert(pe.message);return}const {data:tp}=await sb.from('profiles').select('display_name,role').eq('id',t.created_by).maybeSingle();const topicName=tp?.display_name||t.author_name||'بازیکن';const topicRole=roleLabel(tp?.role||t.author_role||'customer');$('#topicDetail').classList.remove('hidden');$('#topicDetail').innerHTML=`<button class="forum-btn secondary-btn" id="backTopics">بازگشت</button><h2>${esc(t.title)} ${t.is_locked?'🔒':''}</h2><div class="topic-post"><div class="author-line"><b>${esc(topicName)}</b><span>${topicRole}</span></div><p>${esc(t.body)}</p><small class="muted">${new Date(t.created_at).toLocaleString('fa-IR')}</small></div>${(posts||[]).map(p=>`<div class="topic-post"><div class="author-line"><b>${esc(p.author_name||'بازیکن')}</b><span>${roleLabel(p.author_role||'customer')}</span></div><p>${esc(p.body)}</p><small class="muted">${new Date(p.created_at).toLocaleString('fa-IR')}</small>${['owner','admin'].includes(role)?`<button class="mini-danger" data-delpost="${p.id}">حذف پیام</button>`:''}</div>`).join('')}<form class="reply-form" id="replyForm"><h3>پاسخ سریع</h3><textarea name="body" rows="3" maxlength="4000" required placeholder="متن پاسخ را بنویس..."></textarea><button class="forum-btn" ${!session||t.is_locked?'disabled':''}>ارسال پاسخ</button><p class="muted">${!session?'برای پاسخ وارد حساب شو.':t.is_locked?'این موضوع بسته شده است.':''}</p></form>${['owner','admin'].includes(role)?`<div class="owner-tools"><button class="forum-btn" id="toggleLock">${t.is_locked?'بازکردن موضوع':'قفل کردن موضوع'}</button><button class="mini-danger" id="deleteTopic">حذف موضوع</button></div>`:''}`;
-$('#backTopics').onclick=()=>{exitTopicFocus();};$('#replyForm').onsubmit=async e=>{e.preventDefault();if(!session)return;const body=String(new FormData(e.currentTarget).get('body')||'').trim();if(!body)return;const {error}=await sb.from('forum_posts').insert({topic_id:id,body});if(error)alert(error.message);else openTopic(id)};
+async function openTopic(id){activeTopic=id;document.body.classList.add('kr-topic-focus');const {data:t,error}=await sb.from('forum_topics').select('*').eq('id',id).single();if(error)return;const {data:posts,error:pe}=await sb.from('forum_posts').select('*').eq('topic_id',id).order('created_at');if(pe){alert(pe.message);return}const {data:tp}=await sb.from('profiles').select('display_name,role').eq('id',t.created_by).maybeSingle();const topicName=tp?.display_name||t.author_name||'بازیکن';const topicRole=roleLabel(tp?.role||t.author_role||'customer');$('#topicDetail').classList.remove('hidden');$('#topicDetail').innerHTML=`<button class="forum-btn secondary-btn" id="backTopics">بازگشت</button><h2>${esc(t.title)} ${t.is_locked?'🔒':''}</h2><div class="topic-post"><div class="author-line"><b>${esc(topicName)}</b><span>${topicRole}</span></div><p>${esc(t.body)}</p><small class="muted">${new Date(t.created_at).toLocaleString('fa-IR')}</small></div>${(posts||[]).map(p=>`<div class="topic-post"><div class="author-line"><b>${esc(p.author_name||'بازیکن')}</b><span>${roleLabel(p.author_role||'customer')}</span></div><p>${esc(p.body)}</p><small class="muted">${new Date(p.created_at).toLocaleString('fa-IR')}</small>${['owner','admin'].includes(role)?`<button class="mini-danger" data-delpost="${p.id}">حذف پیام</button>`:''}</div>`).join('')}<form class="reply-form" id="replyForm"><h3>پاسخ سریع</h3><textarea name="body" rows="3" maxlength="4000" required placeholder="متن پاسخ را بنویس..."></textarea><button class="forum-btn" ${!session||t.is_locked?'disabled':''}>ارسال پاسخ</button><p class="muted">${!session?'برای پاسخ وارد حساب شو.':t.is_locked?'این موضوع بسته شده است.':''}</p></form>${['owner','admin'].includes(role)?`<div class="owner-tools"><button class="forum-btn" id="toggleLock">${t.is_locked?'بازکردن موضوع':'قفل کردن موضوع'}</button><button class="mini-danger" id="deleteTopic">حذف موضوع</button></div>`:''}`;
+$('#backTopics').onclick=()=>{document.body.classList.remove('kr-topic-focus');$('#topicDetail').classList.add('hidden');};$('#replyForm').onsubmit=async e=>{e.preventDefault();if(!session)return;const body=String(new FormData(e.currentTarget).get('body')||'').trim();if(!body)return;const {error}=await sb.from('forum_posts').insert({topic_id:id,body});if(error)alert(error.message);else openTopic(id)};
 document.querySelectorAll('[data-delpost]').forEach(b=>b.onclick=async()=>{if(!confirm('این پیام حذف شود؟'))return;const {error}=await sb.from('forum_posts').delete().eq('id',b.dataset.delpost);if(error)alert(error.message);else openTopic(id)});
-if(['owner','admin'].includes(role)){$('#toggleLock').onclick=async()=>{const {error}=await sb.from('forum_topics').update({is_locked:!t.is_locked}).eq('id',id);if(error)alert(error.message);else{loadTopics();openTopic(id)}};$('#deleteTopic').onclick=async()=>{if(confirm('این موضوع حذف شود؟')){const {error}=await sb.from('forum_topics').delete().eq('id',id);if(error)alert(error.message);else{exitTopicFocus();loadTopics()}}}}
+if(['owner','admin'].includes(role)){$('#toggleLock').onclick=async()=>{const {error}=await sb.from('forum_topics').update({is_locked:!t.is_locked}).eq('id',id);if(error)alert(error.message);else{loadTopics();openTopic(id)}};$('#deleteTopic').onclick=async()=>{if(confirm('این موضوع حذف شود؟')){const {error}=await sb.from('forum_topics').delete().eq('id',id);if(error)alert(error.message);else{document.body.classList.remove('kr-topic-focus');$('#topicDetail').classList.add('hidden');loadTopics()}}}}
 }
 $('#newTopicBtn').onclick=()=>{if(role!=='owner')return;const form=document.createElement('form');form.className='panel-form quick-topic-form';form.innerHTML=`<h3>موضوع جدید</h3><p class="muted">عنوان و متن موضوع را وارد کن و انتشار را بزن.</p><label>عنوان<input name="title" maxlength="180" required></label><label>دسته‌بندی<select name="category">${categories.filter(c=>c[0]!=='all').map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('')}</select></label><label>متن موضوع<textarea name="body" rows="5" required maxlength="8000"></textarea></label><button class="forum-btn">انتشار موضوع</button><button type="button" class="forum-btn secondary-btn" id="cancelNew">انصراف</button><p class="form-error"></p>`;$('#topicDetail').classList.remove('hidden');$('#topicDetail').replaceChildren(form);$('#cancelNew').onclick=()=>$('#topicDetail').classList.add('hidden');form.onsubmit=async e=>{e.preventDefault();const d=new FormData(form);const {error}=await sb.from('forum_topics').insert({title:d.get('title'),category:d.get('category'),body:d.get('body'),created_by:session.user.id});if(error)form.querySelector('.form-error').textContent=error.message;else{$('#topicDetail').classList.add('hidden');category='all';loadTopics()}}};
 $('#ticketForm').onsubmit=async e=>{e.preventDefault();if(!session){openAuth();$('#ticketError').textContent='برای ثبت تیکت ابتدا وارد حساب شو.';return}const d=new FormData(e.currentTarget);const {error}=await sb.from('support_tickets').insert({subject:d.get('subject'),message:d.get('message'),user_id:session.user.id});$('#ticketError').textContent=error?error.message:'تیکت با موفقیت ثبت شد.';if(!error){e.currentTarget.reset();loadTickets()}};

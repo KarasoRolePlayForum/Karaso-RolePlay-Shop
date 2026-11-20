@@ -47,17 +47,3 @@
 .kr-forum.kr-topic-focus #topicDetail .reply-form textarea {min-height:120px;font-size:14px;}
 .kr-forum.kr-topic-focus #backTopics {padding:10px 20px;font-size:13px;}
 @media(max-width:600px){.kr-forum.kr-topic-focus .kr-forum-wrap{padding:10px 7px 30px}.kr-forum.kr-topic-focus .kr-category-area{padding:8px}.kr-forum.kr-topic-focus #topicDetail{padding:8px}.kr-forum.kr-topic-focus #topicDetail .topic-post{padding:13px}}
-
-
-/* HARD ISOLATED TOPIC VIEW: physically move #topicDetail to body and hide every other page element. */
-body.kr-topic-focus { margin:0!important; padding:0!important; min-height:100vh; background:#100e12!important; overflow-x:hidden; }
-body.kr-topic-focus > *:not(#topicDetail) { display:none!important; }
-body.kr-topic-focus > #topicDetail {
- display:block!important; position:relative; box-sizing:border-box;
- width:min(1100px,100%); min-height:100vh; margin:0 auto!important;
- padding:clamp(16px,4vw,42px)!important; border:0!important; border-radius:0!important;
- background:#171319!important; color:#f4edf5;
-}
-body.kr-topic-focus > #topicDetail > #backTopics { display:inline-flex; margin:0 0 18px!important; }
-body.kr-topic-focus > #topicDetail > h2 { margin-top:0!important; }
-@media(max-width:600px){ body.kr-topic-focus > #topicDetail { padding:12px!important; } }
