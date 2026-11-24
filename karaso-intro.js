@@ -1,15 +1,17 @@
 (()=>{'use strict';
-// KARASO: new motion design — transform/opacity only; no canvas or particle loops.
-const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const ambient=document.createElement('div');ambient.className='kgx-world';ambient.setAttribute('aria-hidden','true');
-ambient.innerHTML='<i class="kgx-shape kgx-shape-a"></i><i class="kgx-shape kgx-shape-b"></i><i class="kgx-shape kgx-shape-c"></i><i class="kgx-ribbon kgx-ribbon-a"></i><i class="kgx-ribbon kgx-ribbon-b"></i><i class="kgx-orb"></i><i class="kgx-fracture"></i>';
-document.body.prepend(ambient);
-if(true){
- const intro=document.createElement('div');intro.className='kgx-intro';
- intro.innerHTML='<div class="kgx-stage"><i class="kgx-intro-shape one"></i><i class="kgx-intro-shape two"></i><i class="kgx-intro-shape three"></i><i class="kgx-intro-cut"></i><i class="kgx-impact"></i><div class="kgx-mark">K</div><div class="kgx-kicker">ENTER THE WORLD</div><div class="kgx-title">KARASO</div><div class="kgx-sub">ROLEPLAY</div><div class="kgx-line">MAKE YOUR NAME. OWN THE NIGHT.</div><button class="kgx-skip" type="button">SKIP</button></div>';
- document.body.appendChild(intro);
- const end=()=>{if(intro.classList.contains('kgx-out'))return;intro.classList.add('kgx-out');setTimeout(()=>intro.remove(),600)};
- intro.querySelector('.kgx-skip').addEventListener('click',end,{once:true});setTimeout(end, reduce ? 1600 : 3900); if(reduce){intro.classList.add('kgx-static');}
-}
+try {
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const ambient=document.createElement('div'); ambient.className='karaso-chaos-bg'; ambient.setAttribute('aria-hidden','true');
+ ambient.innerHTML='<i class="kc-ribbon kc-ribbon-a"></i><i class="kc-ribbon kc-ribbon-b"></i><i class="kc-ribbon kc-ribbon-c"></i><i class="kc-orb kc-orb-a"></i><i class="kc-orb kc-orb-b"></i><i class="kc-flash"></i>';
+ document.body.prepend(ambient);
+ if (!sessionStorage.getItem('karasoChaosIntroShown')) {
+  sessionStorage.setItem('karasoChaosIntroShown','1');
+  const intro=document.createElement('section'); intro.className='karaso-chaos-intro'; intro.setAttribute('aria-label','KARASO ROLEPLAY intro');
+  intro.innerHTML='<div class="kc-intro-stage"><i class="kc-intro-tunnel"></i><i class="kc-intro-sweep"></i><i class="kc-intro-impact"></i><i class="kc-intro-ring"></i><div class="kc-intro-k">K</div><div class="kc-intro-welcome">ENTER THE CITY</div><div class="kc-intro-title">KARASO</div><div class="kc-intro-role">ROLEPLAY</div><button class="kc-intro-skip">SKIP</button></div>';
+  document.body.appendChild(intro);
+  const dismiss=()=>{intro.classList.add('kc-intro-out');window.setTimeout(()=>intro.remove(),650)};
+  intro.querySelector('.kc-intro-skip').addEventListener('click',dismiss,{once:true});
+  window.setTimeout(dismiss,4100);
+ }
+} catch(e) { /* fail gracefully: site content remains available */ }
 })();
