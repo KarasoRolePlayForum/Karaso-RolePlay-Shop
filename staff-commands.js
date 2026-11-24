@@ -15,6 +15,23 @@ const staffGroups = [
  {rank:'CM Scripter / اسکریپتر',type:'admin',commands:[['/server','تنظیمات سرور (انقضا)','/server <ExpireToggle/ExpireDays> <Value>'],['/saveaccounts','(/o)oc <Text>'],['/animhelp','']]},
  {rank:'Helper Level 1–4 / هلپر',type:'helper',commands:[['/hh','راهنمای دستورهای هلپر'],['/hl','چت با بازیکن در گفتگوی کمک','/hl <Chat>'],['/ah','باز کردن گفتگوی کمک با بازیکن','/ah <Playerid/PartOfName>'],['/helperchat','چت مخصوص هلپرها (/hc)'],['/ch','بستن گفتگوی کمک','/ch <Playerid/PartOfName>'],['/helpmes','لیست درخواست‌های کمک'],['/requestgoto','درخواست رفتن پیش بازیکن','/Requestgoto <Playerid/PartOfName> <Reason>'],['/pm','پیام خصوصی به بازیکن','/Pm <Playerid/PartOfName> <Text>'],['/oldcar','/ch <Playerid/PartOfName>']]}
 ];
+let customStaffCommands=[];
+async function loadCustomStaffCommands(){
+ try{
+  const sb=window.supabase.createClient(window.KARASO_SUPABASE_URL,window.KARASO_SUPABASE_PUBLISHABLE_KEY,window.KARASO_SUPABASE_AUTH_OPTIONS);
+  const {data,error}=await sb.from('karaso_staff_commands').select('*').order('created_at',{ascending:true});
+  if(error)throw error;
+  customStaffCommands=data||[];
+  customStaffCommands.forEach(row=>{
+   let group=staffGroups.find(g=>g.rank===row.rank_name);
+   if(!group){group={rank:row.rank_name,type:row.command_category==='helper'?'helper':'admin',commands:[]};staffGroups.push(group);}
+   group.commands.push([row.command_name,row.description||'',row.usage_text||row.command_name]);
+  });
+  filterEl.innerHTML='<button class="selected" data-rank="all">همه رنک‌ها</button>';
+  [...new Set(staffGroups.map(g=>g.rank))].forEach(rank=>{const b=document.createElement('button');b.textContent=rank;b.dataset.rank=rank;filterEl.appendChild(b)});
+  render();
+ }catch(err){console.info('Custom staff commands not loaded (table may not exist yet):',err.message)}
+}
 const ranks = [...new Set(staffGroups.map(g=>g.rank))];
 document.getElementById('adminCount').textContent=staffGroups.filter(g=>g.type==='admin').reduce((n,g)=>n+g.commands.length,0);
 document.getElementById('helperCount').textContent=staffGroups.filter(g=>g.type==='helper').reduce((n,g)=>n+g.commands.length,0);
@@ -24,3 +41,4 @@ let activeRank='all';const searchEl=document.getElementById('commandSearch');con
 function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function render(){const q=searchEl.value.trim().toLowerCase();let total=0;listEl.innerHTML='';staffGroups.forEach((g,gi)=>{if(activeRank!=='all'&&g.rank!==activeRank)return;const filtered=g.commands.filter(c=>[c[0],c[1],c[2],g.rank].filter(Boolean).join(' ').toLowerCase().includes(q));if(!filtered.length)return;total+=filtered.length;const section=document.createElement('section');section.className='staffcmd-group';section.innerHTML=`<header class="staffcmd-group-head"><h2>${escapeHtml(g.rank)}</h2><small>${filtered.length} مورد</small></header><div class="staffcmd-cards">${filtered.map((c,idx)=>`<article class="staffcmd-card"><div class="staffcmd-card-top"><div><div class="staffcmd-name">${escapeHtml(c[0])}</div>${c[2]?`<div class="staffcmd-alias">Syntax / Args: ${escapeHtml(c[2])}</div>`:''}</div><button class="staffcmd-copy" data-copy="${escapeHtml(c[2]||c[0])}">کپی</button></div>${c[1]?`<p class="staffcmd-desc">${escapeHtml(c[1])}</p>`:''}${c[2]?`<div class="staffcmd-usage">${escapeHtml(c[2])}</div>`:''}</article>`).join('')}</div>`;listEl.appendChild(section)});document.getElementById('visibleCount').textContent=total;if(!total)listEl.innerHTML='<div class="staffcmd-empty">دستوری با این جستجو پیدا نشد.</div>';listEl.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',async()=>{const val=btn.dataset.copy;try{await navigator.clipboard.writeText(val);btn.textContent='کپی شد';setTimeout(()=>btn.textContent='کپی',1300)}catch{const ta=document.createElement('textarea');ta.value=val;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();btn.textContent='کپی شد';setTimeout(()=>btn.textContent='کپی',1300)}}))}
 filterEl.addEventListener('click',e=>{const b=e.target.closest('button[data-rank]');if(!b)return;activeRank=b.dataset.rank;filterEl.querySelectorAll('button').forEach(x=>x.classList.toggle('selected',x===b));render()});searchEl.addEventListener('input',render);render();
+loadCustomStaffCommands();

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KARASO | مدیریت لیست ادمین‌ها</title><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./staff-commands-admin.css"><link rel="stylesheet" href="./staff-list.css"></head>
+<body class="staffcmd-body"><script src="./karaso-intro.js"></script>
+<header class="top staffcmd-top"><a class="brand" href="./index.html"><b>K</b><span>KARASO<small>STAFF DIRECTORY ADMIN</small></span></a><nav><a href="./index.html">خانه</a><a href="./staff-list.html">لیست ادمین‌ها</a><a href="./staff-commands.html">دستورات استف</a></nav><a class="portal-back" href="./staff-list.html">بازگشت به لیست ←</a></header>
+<main class="cmdadmin-wrap"><header class="cmdadmin-hero"><small>OWNER ACCESS / STAFF DIRECTORY</small><h1>مدیریت <em>لیست ادمین‌ها</em></h1><p>نام، رنک و عنوان رول را آزادانه وارد کن. لیست عمومی به‌صورت خودکار از رنک بزرگ به کوچک مرتب می‌شود.</p><div id="staffAdminStatus" class="status">در حال بررسی دسترسی Owner…</div></header>
+<section id="staffAdminContent" hidden>
+<form id="staffForm" class="cmdadmin-form"><h2 id="staffFormTitle">افزودن عضو جدید</h2><input type="hidden" id="staffEditId">
+<label>نام نمایشی شخص<input id="staffName" maxlength="80" placeholder="مثلاً Noyan" required></label>
+<label>رنک عددی<input id="staffRank" type="number" step="1" placeholder="مثلاً 9" required></label>
+<label>رول دلخواه (هر عنوانی خواستی)<input id="staffRole" maxlength="80" placeholder="مثلاً Founder یا Head Admin" required></label>
+<div class="form-actions"><button type="submit" id="staffSaveBtn">افزودن به لیست</button><button type="button" id="staffCancelEdit" class="secondary" hidden>لغو ویرایش</button></div><p id="staffFormMessage" role="status"></p></form>
+<section class="cmdadmin-list"><div class="list-head"><h2>اعضای ثبت‌شده</h2><input id="staffSearch" type="search" placeholder="جستجوی نام، رنک یا رول"></div><div id="staffRecords"></div></section>
+</section></main><footer class="portal-footer"><b>KARASO ROLEPLAY</b><span>OWNER STAFF MANAGEMENT</span></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script><script src="./staff-list-admin.js"></script></body></html>

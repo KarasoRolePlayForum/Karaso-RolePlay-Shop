@@ -25,3 +25,5 @@
  .staffcmd-usage{grid-column:1/-1;grid-row:3}
  .staffcmd-copy{grid-column:2;grid-row:1/2}
 }
+
+.owner-cmd-admin-link{margin:0 0 16px}.owner-cmd-admin-link a{display:inline-flex;align-items:center;gap:8px;border:1px solid #b99040;background:linear-gradient(120deg,#342512,#15110a);color:#f2c96c;text-decoration:none;padding:12px 18px;border-radius:12px;font-weight:800}.owner-cmd-admin-link a:hover{filter:brightness(1.2)}
