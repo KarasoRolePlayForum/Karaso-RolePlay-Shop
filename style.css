@@ -255,3 +255,96 @@ body>*:not(.karaso-ambient-canvas){position:relative;z-index:1}
 @keyframes kiScreenPunch{0%,35%{opacity:1;transform:scale(1)}45%{opacity:1;filter:brightness(2.4)}100%{opacity:0;transform:scale(1.08);visibility:hidden}}@keyframes kiExit{100%{opacity:0;transform:scale(1.06)}}
 @media(max-width:600px){.ki-logo{width:88px;height:88px;font-size:58px}.ki-motto{letter-spacing:.11em}.ki-skip{font-size:9px!important;padding:11px 18px!important}.ki-ring{border-width:1px}}
 @media(prefers-reduced-motion:reduce){.ki-radial,.ki-streaks,.ki-ring,.ki-sparks i,.ki-logo,.ki-overline,.ki-name,.ki-role,.ki-motto,.ki-impact{animation:none!important}.ki-sparks i{display:none!important}}
+
+/* Performance tuning: smoother mobile rendering */
+.karaso-ambient-canvas{opacity:.48!important}
+.ki-radial,.ki-streaks{filter:none!important}
+.ki-sparks i{box-shadow:0 0 4px 1px #e5ae42!important}
+@media(max-width:600px){.ki-radial,.ki-streaks{animation-duration:24s!important}.ki-ring1,.ki-ring2,.ki-ring3{animation-duration:1.65s,2s,2.3s!important}}
+
+/* Lightweight, high-visibility gold motion override */
+.karaso-ambient-canvas{opacity:.9!important;z-index:0!important;}
+body{background-color:#030303!important;background-image:radial-gradient(ellipse at 20% 20%,#b58a2928,transparent 40%),radial-gradient(ellipse at 80% 75%,#d7a63822,transparent 38%),linear-gradient(125deg,#080705,#151006 45%,#030303 80%)!important;background-size:160% 160%,180% 180%,300% 300%!important;animation:karasoGoldBackdrop 12s ease-in-out infinite alternate!important;}
+@keyframes karasoGoldBackdrop{0%{background-position:0% 0%,100% 100%,0% 50%}100%{background-position:100% 100%,0% 0%,100% 50%}}
+body:before{opacity:.65!important;background-size:75px 75px,115px 115px,160px 160px!important;animation:karasoDust 9s linear infinite!important;}
+.karaso-intro{background:#020201!important;}
+.ki-backdrop{background:radial-gradient(ellipse at center,#62430f 0%,#201504 24%,#060504 64%,#010101 100%)!important;}
+.ki-radial,.ki-streaks{filter:none!important;animation-duration:18s!important;opacity:.55!important;}
+.ki-sparks i{box-shadow:none!important;}
+.ki-logo{box-shadow:0 0 22px #d9a83b55,inset 0 0 22px #d9a83b20!important;}
+.ki-name{filter:none!important;}
+.ki-closing{animation:kiScreenPunch .65s ease both!important;}
+.ki-closing .ki-backdrop{animation:kiExit .65s ease both!important;}
+.ki-lightwash{position:absolute;inset:-25%;background:linear-gradient(115deg,transparent 25%,#ffda7625 48%,#fff5bd40 50%,#f2b63c20 52%,transparent 75%);transform:translateX(-120%);animation:karasoLightSweep 1.8s .25s ease-out forwards;pointer-events:none;}
+.ki-burst-ring{position:absolute;left:50%;top:50%;width:12vmin;height:12vmin;border:2px solid #ffe28a;border-radius:50%;transform:translate(-50%,-50%) scale(.15);opacity:0;animation:karasoRingFast 1.3s .2s ease-out both;box-shadow:none!important;}
+.ki-burst-ring.second{border-color:#b78b35;animation-delay:.38s;animation-duration:1.55s;}
+@keyframes karasoLightSweep{to{transform:translateX(120%)}}
+@keyframes karasoRingFast{0%{opacity:0;transform:translate(-50%,-50%) scale(.15)}12%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
+@media(max-width:600px){body{animation-duration:16s!important}.ki-radial,.ki-streaks{animation-duration:26s!important}.ki-burst-ring{border-width:1px}}
+@media(prefers-reduced-motion:reduce){body,body:before,.ki-lightwash,.ki-burst-ring{animation:none!important}}
+
+/* KARASO GOLD ATMOSPHERE — elegant, visible motion with transform-only layers */
+.karaso-ambient-canvas{display:none!important}
+body{background:#030303!important;animation:none!important;}
+body:before{content:none!important}
+body:after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 18% 22%,#8e651a30,transparent 42%),radial-gradient(ellipse at 82% 76%,#c28b2725,transparent 46%),linear-gradient(120deg,#030303,#0d0a04 50%,#030303);}
+/* moving gold silk-like light bands */
+body:after{background-size:100% 100%;}
+.karaso-intro{background:#020201!important;animation:none!important;}
+.ki-backdrop{position:absolute!important;inset:0!important;overflow:hidden!important;isolation:isolate;background:radial-gradient(ellipse at 50% 48%,#30200a 0%,#100c04 35%,#020202 78%)!important;}
+.ki-aurora{position:absolute;inset:-35%;background:linear-gradient(115deg,transparent 24%,#bd8d2b18 35%,#ffe6a336 44%,#fff2c81c 49%,#9d6d2418 55%,transparent 72%);transform:translate3d(-45%,0,0) rotate(-12deg);animation:kiAuroraSlide 3.6s ease-in-out infinite alternate;will-change:transform;}
+.ki-rays{position:absolute;inset:-30%;width:auto!important;height:auto!important;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0deg 13deg,#e9bd5710 14deg 16deg,transparent 17deg 30deg)!important;opacity:.6!important;animation:kiSpin 32s linear infinite!important;will-change:transform;}
+.ki-grid{position:absolute;inset:0;background:linear-gradient(transparent 96%,#b58a2c0a 100%),linear-gradient(90deg,transparent 96%,#b58a2c0a 100%);background-size:58px 58px;opacity:.2;mask-image:radial-gradient(ellipse at center,#000,transparent 72%);}
+.ki-sparkfield{position:absolute;inset:0;background-image:radial-gradient(circle,#ffe7a0 1px,transparent 2px),radial-gradient(circle,#b88831 1.5px,transparent 3px),radial-gradient(circle,#fff0be 1px,transparent 2px);background-size:110px 110px,170px 170px,240px 240px;background-position:0 0,30px 80px,90px 20px;opacity:.48;animation:kiSparkDrift 18s linear infinite;will-change:background-position;}
+.ki-ring{position:absolute!important;left:50%!important;top:47%!important;border:1px solid #f0cc70!important;border-radius:50%!important;width:20vmin!important;height:20vmin!important;opacity:0!important;transform:translate(-50%,-50%) scale(.15)!important;box-shadow:0 0 14px #d9a63b25!important;animation:kiRingWave 1.5s .28s ease-out both!important;}
+.ki-ring-a{animation-delay:.24s!important}.ki-ring-b{width:34vmin!important;height:34vmin!important;border-color:#fff0b2!important;animation-delay:.4s!important}.ki-ring-c{width:50vmin!important;height:50vmin!important;border-color:#b4822c!important;animation-delay:.56s!important}
+.ki-impact-core{position:absolute;left:50%;top:47%;width:8px;height:8px;border-radius:50%;background:#fff5c9;opacity:0;transform:translate(-50%,-50%);box-shadow:0 0 18px 8px #ffe08a,0 0 70px 28px #c58a2a;animation:kiCoreFlash .62s .2s ease-out both;}
+.ki-logo{animation:kiLogoDrop .82s .28s cubic-bezier(.12,.8,.2,1) both!important;}
+.ki-name{animation:kiTextReveal .5s .68s both,kiGoldSweep 3.8s 1.3s ease-in-out infinite!important;}
+.ki-overline{animation:kiTextReveal .4s .56s both!important}.ki-role{animation:kiTextReveal .45s .88s both!important}.ki-motto{animation:kiTextReveal .4s 1.08s both!important}
+.ki-closing .ki-backdrop{animation:kiExit .56s ease both!important;}
+@keyframes kiAuroraSlide{to{transform:translate3d(45%,0,0) rotate(-12deg)}}
+@keyframes kiSparkDrift{to{background-position:180px -160px,-120px 230px,280px -100px}}
+@keyframes kiRingWave{0%{opacity:0;transform:translate(-50%,-50%) scale(.12)}12%{opacity:.75}100%{opacity:0;transform:translate(-50%,-50%) scale(6)}}
+@keyframes kiCoreFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}25%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}
+@keyframes kiLogoDrop{0%{opacity:0;transform:translateY(-45px) scale(.55) rotate(-10deg)}65%{opacity:1;transform:translateY(8px) scale(1.08) rotate(2deg)}100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@media(max-width:600px){.ki-sparkfield{opacity:.34;background-size:150px 150px,220px 220px,300px 300px;animation-duration:24s}.ki-rays{animation-duration:44s!important}.ki-aurora{animation-duration:5s}}
+@media(prefers-reduced-motion:reduce){.ki-aurora,.ki-rays,.ki-sparkfield,.ki-ring,.ki-impact-core,.ki-logo,.ki-name,.ki-overline,.ki-role,.ki-motto{animation:none!important}}
+.karaso-gold-ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#030303;}
+.kga-wave{position:absolute;display:block;width:150vw;height:90vh;left:-25vw;top:15vh;border-radius:50%;border:1px solid #b58a3020;box-shadow:inset 0 0 80px #b58a3008,0 0 40px #c0943510;transform:rotate(-18deg);}
+.kga-wave1{border-color:#d5a94325;animation:kgaMove1 14s ease-in-out infinite alternate;}
+.kga-wave2{width:135vw;height:80vh;left:-15vw;top:35vh;border-color:#f0cf7220;transform:rotate(16deg);animation:kgaMove2 19s ease-in-out infinite alternate;}
+.kga-glow{position:absolute;inset:-30%;background:linear-gradient(112deg,transparent 34%,#c99a3520 46%,#ffe6a02a 50%,#9e752319 54%,transparent 68%);transform:translate3d(-35%,0,0) rotate(-8deg);animation:kgaGlow 10s ease-in-out infinite alternate;}
+.kga-stars{position:absolute;inset:0;background-image:radial-gradient(circle,#f7d886 1px,transparent 2px),radial-gradient(circle,#bb8a2c 1px,transparent 2px);background-size:90px 90px,155px 155px;background-position:0 0,40px 70px;opacity:.38;animation:kgaStarDrift 28s linear infinite;}
+@keyframes kgaMove1{to{transform:translate3d(8vw,-5vh,0) rotate(-12deg);border-color:#e6bf572e}}
+@keyframes kgaMove2{to{transform:translate3d(-6vw,6vh,0) rotate(24deg);border-color:#c899382c}}
+@keyframes kgaGlow{to{transform:translate3d(35%,0,0) rotate(-8deg)}}
+@keyframes kgaStarDrift{to{background-position:180px -140px,-120px 210px}}
+body>*:not(.karaso-ambient-canvas):not(.karaso-gold-ambient){position:relative;z-index:1}
+@media(max-width:600px){.kga-wave{width:180vw;height:65vh;left:-40vw}.kga-glow{animation-duration:16s}.kga-stars{opacity:.27;animation-duration:36s}}
+@media(prefers-reduced-motion:reduce){.kga-wave,.kga-glow,.kga-stars{animation:none!important}}
+.karaso-gold-ambient{z-index:1!important}
+body>*:not(.karaso-ambient-canvas):not(.karaso-gold-ambient){z-index:2}
+
+/* === KARASO GOLD MOTION FINAL: streamlined, mobile-friendly === */
+.karaso-gold-ambient{z-index:0!important;background:#030303!important;contain:paint!important}
+.kga-wave{border:0!important;border-radius:0!important;box-shadow:none!important;width:160vw!important;height:70vh!important;left:-30vw!important;top:15vh!important;transform:translate3d(0,0,0) rotate(-14deg)!important;background:linear-gradient(180deg,transparent 12%,#9e73151a 27%,#d7a73a27 43%,#ffe9a444 50%,#b8862c26 59%,#6f4d1214 73%,transparent 90%)!important;opacity:.9!important;will-change:transform!important}
+.kga-wave1{animation:kgaSilk1 16s ease-in-out infinite alternate!important}
+.kga-wave2{height:55vh!important;top:48vh!important;left:-20vw!important;width:140vw!important;transform:translate3d(0,0,0) rotate(17deg)!important;background:linear-gradient(180deg,transparent 10%,#7c591316 25%,#b8872a22 42%,#f2d17435 50%,#9a6b2020 60%,transparent 88%)!important;animation:kgaSilk2 20s ease-in-out infinite alternate!important}
+.kga-glow{inset:-15%!important;background:linear-gradient(118deg,transparent 28%,#a8791a12 40%,#f4d47b2c 49%,#fff1c219 53%,#b5822910 60%,transparent 72%)!important;will-change:transform!important;animation:kgaGlow 12s ease-in-out infinite alternate!important}
+.kga-stars{display:none!important}
+@keyframes kgaSilk1{to{transform:translate3d(7vw,-3vh,0) rotate(-9deg)!important}}
+@keyframes kgaSilk2{to{transform:translate3d(-6vw,4vh,0) rotate(22deg)!important}}
+/* Intro uses only transform/opacity layers; expensive texture layers are disabled. */
+.ki-rays,.ki-grid,.ki-sparkfield{display:none!important}
+.ki-backdrop{background:radial-gradient(ellipse at 50% 48%,#342208 0%,#110b03 36%,#020202 78%)!important;contain:paint!important}
+.ki-aurora{inset:-22%!important;background:linear-gradient(112deg,transparent 23%,#a5761b15 36%,#e4b64b30 45%,#fff0b829 50%,#b8872b20 56%,transparent 72%)!important;will-change:transform!important;animation:kiAuroraSlide 3.1s ease-in-out infinite alternate!important}
+.ki-aurora:before,.ki-aurora:after{content:"";position:absolute;inset:18% -10%;background:linear-gradient(108deg,transparent 26%,#9c701b15 39%,#f4cf6b28 49%,#e2b64c19 54%,transparent 70%);transform:translate3d(0,0,0) rotate(14deg);will-change:transform;animation:kiAuroraSlide 4.6s ease-in-out infinite alternate}
+.ki-aurora:after{inset:38% -8%;opacity:.75;transform:rotate(-18deg);animation-duration:5.3s;animation-direction:alternate-reverse}
+.ki-ring{box-shadow:none!important;will-change:transform,opacity!important}
+.ki-impact-core{box-shadow:0 0 16px 7px #ffe08a,0 0 60px 20px #c58a2a!important}
+.ki-logo{box-shadow:0 0 14px #d9a83b60,inset 0 0 22px #d9a83b20!important;text-shadow:0 0 10px #ffdf7b,0 0 28px #d99c27!important;filter:none!important}
+.ki-name{filter:none!important}
+.ki-closing,.ki-closing .ki-backdrop{animation-duration:.5s!important}
+@media(max-width:600px){.karaso-gold-ambient{contain:strict!important}.kga-wave{height:55vh!important}.kga-wave1{animation-duration:22s!important}.kga-wave2{animation-duration:24s!important}.kga-glow{animation-duration:18s!important}.ki-aurora{animation-duration:4s!important}.ki-aurora:before{animation-duration:5.2s!important}.ki-aurora:after{animation-duration:6.2s!important}}
+@media(prefers-reduced-motion:reduce){.karaso-gold-ambient,.kga-wave,.kga-glow,.ki-aurora,.ki-aurora:before,.ki-aurora:after{animation:none!important}}
