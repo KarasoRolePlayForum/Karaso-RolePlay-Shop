@@ -1,19 +1,15 @@
 (()=>{'use strict';
-// Performance-first cinematic gold intro. No canvas, no particle loop, no animated blur.
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const seen=sessionStorage.getItem('karasoIntroSeen');
-const ambient=document.createElement('div');
-ambient.className='karaso-gold-ambient';
-ambient.setAttribute('aria-hidden','true');
-ambient.innerHTML='<i class="kga-wave kga-wave1"></i><i class="kga-wave kga-wave2"></i><i class="kga-glow"></i>';
+// KARASO: new motion design — transform/opacity only; no canvas or particle loops.
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const ambient=document.createElement('div');ambient.className='kgx-world';ambient.setAttribute('aria-hidden','true');
+ambient.innerHTML='<i class="kgx-shape kgx-shape-a"></i><i class="kgx-shape kgx-shape-b"></i><i class="kgx-shape kgx-shape-c"></i><i class="kgx-ribbon kgx-ribbon-a"></i><i class="kgx-ribbon kgx-ribbon-b"></i><i class="kgx-orb"></i><i class="kgx-fracture"></i>';
 document.body.prepend(ambient);
-if(!reduced&&!seen){
- sessionStorage.setItem('karasoIntroSeen','1');
- const overlay=document.createElement('div');overlay.className='karaso-intro';
- overlay.innerHTML='<div class="ki-backdrop"><div class="ki-aurora"></div><div class="ki-rays"></div><div class="ki-grid"></div><div class="ki-sparkfield"></div><div class="ki-impact-core"></div><i class="ki-ring ki-ring-a"></i><i class="ki-ring ki-ring-b"></i><i class="ki-ring ki-ring-c"></i><div class="ki-logo">K</div><div class="ki-overline">WELCOME TO</div><div class="ki-name">KARASO</div><div class="ki-role">ROLEPLAY</div><div class="ki-motto">MAKE YOUR NAME. OWN THE NIGHT.</div><button class="ki-skip" type="button">SKIP INTRO</button></div>';
- document.body.appendChild(overlay);
- const close=()=>{if(overlay.classList.contains('ki-closing'))return;overlay.classList.add('ki-closing');setTimeout(()=>overlay.remove(),500)};
- overlay.querySelector('.ki-skip').addEventListener('click',close,{once:true});
- setTimeout(close,2650);
+if(true){
+ const intro=document.createElement('div');intro.className='kgx-intro';
+ intro.innerHTML='<div class="kgx-stage"><i class="kgx-intro-shape one"></i><i class="kgx-intro-shape two"></i><i class="kgx-intro-shape three"></i><i class="kgx-intro-cut"></i><i class="kgx-impact"></i><div class="kgx-mark">K</div><div class="kgx-kicker">ENTER THE WORLD</div><div class="kgx-title">KARASO</div><div class="kgx-sub">ROLEPLAY</div><div class="kgx-line">MAKE YOUR NAME. OWN THE NIGHT.</div><button class="kgx-skip" type="button">SKIP</button></div>';
+ document.body.appendChild(intro);
+ const end=()=>{if(intro.classList.contains('kgx-out'))return;intro.classList.add('kgx-out');setTimeout(()=>intro.remove(),600)};
+ intro.querySelector('.kgx-skip').addEventListener('click',end,{once:true});setTimeout(end, reduce ? 1600 : 3900); if(reduce){intro.classList.add('kgx-static');}
 }
 })();

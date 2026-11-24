@@ -326,25 +326,87 @@ body>*:not(.karaso-ambient-canvas):not(.karaso-gold-ambient){position:relative;z
 .karaso-gold-ambient{z-index:1!important}
 body>*:not(.karaso-ambient-canvas):not(.karaso-gold-ambient){z-index:2}
 
-/* === KARASO GOLD MOTION FINAL: streamlined, mobile-friendly === */
-.karaso-gold-ambient{z-index:0!important;background:#030303!important;contain:paint!important}
-.kga-wave{border:0!important;border-radius:0!important;box-shadow:none!important;width:160vw!important;height:70vh!important;left:-30vw!important;top:15vh!important;transform:translate3d(0,0,0) rotate(-14deg)!important;background:linear-gradient(180deg,transparent 12%,#9e73151a 27%,#d7a73a27 43%,#ffe9a444 50%,#b8862c26 59%,#6f4d1214 73%,transparent 90%)!important;opacity:.9!important;will-change:transform!important}
-.kga-wave1{animation:kgaSilk1 16s ease-in-out infinite alternate!important}
-.kga-wave2{height:55vh!important;top:48vh!important;left:-20vw!important;width:140vw!important;transform:translate3d(0,0,0) rotate(17deg)!important;background:linear-gradient(180deg,transparent 10%,#7c591316 25%,#b8872a22 42%,#f2d17435 50%,#9a6b2020 60%,transparent 88%)!important;animation:kgaSilk2 20s ease-in-out infinite alternate!important}
-.kga-glow{inset:-15%!important;background:linear-gradient(118deg,transparent 28%,#a8791a12 40%,#f4d47b2c 49%,#fff1c219 53%,#b5822910 60%,transparent 72%)!important;will-change:transform!important;animation:kgaGlow 12s ease-in-out infinite alternate!important}
-.kga-stars{display:none!important}
-@keyframes kgaSilk1{to{transform:translate3d(7vw,-3vh,0) rotate(-9deg)!important}}
-@keyframes kgaSilk2{to{transform:translate3d(-6vw,4vh,0) rotate(22deg)!important}}
-/* Intro uses only transform/opacity layers; expensive texture layers are disabled. */
-.ki-rays,.ki-grid,.ki-sparkfield{display:none!important}
-.ki-backdrop{background:radial-gradient(ellipse at 50% 48%,#342208 0%,#110b03 36%,#020202 78%)!important;contain:paint!important}
-.ki-aurora{inset:-22%!important;background:linear-gradient(112deg,transparent 23%,#a5761b15 36%,#e4b64b30 45%,#fff0b829 50%,#b8872b20 56%,transparent 72%)!important;will-change:transform!important;animation:kiAuroraSlide 3.1s ease-in-out infinite alternate!important}
-.ki-aurora:before,.ki-aurora:after{content:"";position:absolute;inset:18% -10%;background:linear-gradient(108deg,transparent 26%,#9c701b15 39%,#f4cf6b28 49%,#e2b64c19 54%,transparent 70%);transform:translate3d(0,0,0) rotate(14deg);will-change:transform;animation:kiAuroraSlide 4.6s ease-in-out infinite alternate}
-.ki-aurora:after{inset:38% -8%;opacity:.75;transform:rotate(-18deg);animation-duration:5.3s;animation-direction:alternate-reverse}
-.ki-ring{box-shadow:none!important;will-change:transform,opacity!important}
-.ki-impact-core{box-shadow:0 0 16px 7px #ffe08a,0 0 60px 20px #c58a2a!important}
-.ki-logo{box-shadow:0 0 14px #d9a83b60,inset 0 0 22px #d9a83b20!important;text-shadow:0 0 10px #ffdf7b,0 0 28px #d99c27!important;filter:none!important}
-.ki-name{filter:none!important}
-.ki-closing,.ki-closing .ki-backdrop{animation-duration:.5s!important}
-@media(max-width:600px){.karaso-gold-ambient{contain:strict!important}.kga-wave{height:55vh!important}.kga-wave1{animation-duration:22s!important}.kga-wave2{animation-duration:24s!important}.kga-glow{animation-duration:18s!important}.ki-aurora{animation-duration:4s!important}.ki-aurora:before{animation-duration:5.2s!important}.ki-aurora:after{animation-duration:6.2s!important}}
-@media(prefers-reduced-motion:reduce){.karaso-gold-ambient,.kga-wave,.kga-glow,.ki-aurora,.ki-aurora:before,.ki-aurora:after{animation:none!important}}
+/* === KARASO BLACK GOLD CHAOS: clean replacement motion system === */
+.karaso-gold-ambient,.karaso-ambient-canvas{display:none!important}
+body{background:#030303!important;animation:none!important;isolation:isolate;}
+body:before,body:after{content:none!important}
+.kgx-world{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 48% 55%,#181108 0%,#070604 47%,#020202 78%);}
+.kgx-world i{position:absolute;display:block;}
+.kgx-shape{width:78vw;height:85vh;border-radius:44% 56% 63% 37% / 38% 44% 56% 62%;background:linear-gradient(135deg,#2c1c07 0%,#b17a1b 20%,#f5d77a 31%,#5b3c0b 43%,#140d04 59%,#c38d2b 74%,#211406 100%);opacity:.58;will-change:transform;}
+.kgx-shape-a{left:-35vw;top:-24vh;animation:kgxMorphA 13s ease-in-out infinite alternate;}
+.kgx-shape-b{right:-40vw;bottom:-30vh;width:96vw;height:100vh;background:linear-gradient(150deg,#160e03,#8b6018 16%,#d5a63e 25%,#261704 38%,#090705 54%,#e0b64e 69%,#201304 85%);opacity:.48;animation:kgxMorphB 11s ease-in-out infinite alternate;}
+.kgx-shape-c{width:56vw;height:60vh;left:22vw;top:20vh;border-radius:57% 43% 31% 69% / 61% 32% 68% 39%;background:conic-gradient(from 40deg,#080604,#8b5d12,#f2d57d,#1b1104,#a9751c,#050403);opacity:.38;animation:kgxRotateOnly 18s linear infinite;}
+.kgx-ribbon{height:32vh;width:140vw;left:-20vw;top:40vh;border-radius:50%;border:3vw solid transparent;border-top-color:#c99832;border-bottom-color:#e3bc5e;opacity:.32;transform:rotate(-24deg);will-change:transform;}
+.kgx-ribbon-a{animation:kgxRibbonA 10s ease-in-out infinite alternate;}
+.kgx-ribbon-b{top:8vh;left:-45vw;width:180vw;height:58vh;border-width:2vw;border-color:transparent;border-left-color:#c58c2d;border-right-color:#f0d078;opacity:.24;transform:rotate(32deg);animation:kgxRibbonB 10s ease-in-out infinite alternate;}
+.kgx-orb{width:65vmax;height:65vmax;left:50%;top:50%;border-radius:50%;background:conic-gradient(from 0deg,transparent,#9c6c1a22,#f2cf722b,transparent,#b27a2220,transparent);transform:translate(-50%,-50%);animation:kgxSpin 30s linear infinite;}
+.kgx-fracture{inset:0;background:linear-gradient(118deg,transparent 22%,#e2b84900 35%,#e2b84922 39%,#fff0aa1b 42%,transparent 48%),linear-gradient(42deg,transparent 58%,#b47b2518 65%,#f3d36b26 70%,transparent 76%);opacity:.65;animation:kgxFracture 5s ease-in-out infinite alternate;}
+@keyframes kgxMorphA{0%{transform:translate3d(-10vw,-7vh,0) rotate(-28deg) scale(.76)}100%{transform:translate3d(32vw,18vh,0) rotate(44deg) scale(1.28)}}
+@keyframes kgxMorphB{0%{transform:translate3d(15vw,12vh,0) rotate(20deg) scale(.8)}100%{transform:translate3d(-27vw,-18vh,0) rotate(-38deg) scale(1.25)}}
+@keyframes kgxRibbonA{0%{transform:translate3d(-12vw,-15vh,0) rotate(-36deg) scale(.82)}100%{transform:translate3d(14vw,18vh,0) rotate(-8deg) scale(1.18)}}
+@keyframes kgxRibbonB{0%{transform:translate3d(8vw,15vh,0) rotate(18deg) scale(.85)}100%{transform:translate3d(-18vw,-12vh,0) rotate(49deg) scale(1.15)}}
+@keyframes kgxFracture{0%{transform:translateX(-18%) skewY(-8deg);opacity:.25}100%{transform:translateX(18%) skewY(9deg);opacity:.7}}
+@keyframes kgxSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes kgxRotateOnly{to{transform:rotate(360deg)}}
+body>*:not(.kgx-world):not(.kgx-intro){position:relative;z-index:2}
+/* Fresh intro: smash-cut, diagonal metal shards, shock ring, rapid logo reveal */
+.kgx-intro{position:fixed;inset:0;z-index:100000;overflow:hidden;background:#020202;color:#f4d47a;display:grid;place-items:center;font-family:inherit;}
+.kgx-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,#2c1d08 0,#0a0703 35%,#020202 74%);}
+.kgx-intro-shape{position:absolute;display:block;width:160vw;height:42vh;left:-30vw;border-radius:50%;background:linear-gradient(90deg,#100a02,#986719,#ffe79b,#a16a16,#120a02);opacity:0;will-change:transform;}
+.kgx-intro-shape.one{top:12%;transform:rotate(-32deg);animation:kgxShatter1 1.35s .12s cubic-bezier(.1,.7,.1,1) both;}
+.kgx-intro-shape.two{bottom:8%;height:30vh;transform:rotate(28deg);background:linear-gradient(90deg,#0b0702,#c38d2d,#fff2b2,#8b5d16,#030302);animation:kgxShatter2 1.55s .18s cubic-bezier(.1,.7,.1,1) both;}
+.kgx-intro-shape.three{width:120vw;height:120vw;left:-10vw;top:-30vw;border-radius:50%;background:conic-gradient(transparent,#e0ad3c,#fff2b3,#5c3c0a,transparent,#c48c27,transparent);animation:kgxSpin 2.3s linear both,kgxShapeFade 2.5s ease both;}
+.kgx-intro-cut{position:absolute;inset:-30%;background:linear-gradient(118deg,transparent 45%,#f3d476 48%,#fff9d6 50%,#b77d1d 52%,transparent 56%);transform:translateX(-120%) rotate(-8deg);animation:kgxCut .95s .22s ease-out both;}
+.kgx-impact{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff7d2;box-shadow:0 0 25px 12px #ffe78c,0 0 130px 70px #d99e2b65;opacity:0;animation:kgxHit .8s .38s ease-out both;}
+.kgx-mark{z-index:3;width:clamp(70px,18vw,125px);height:clamp(70px,18vw,125px);border:2px solid #ffe38b;border-radius:24%;display:grid;place-items:center;background:linear-gradient(145deg,#d5a441,#161005 58%);color:#fff5c8;font-size:clamp(55px,14vw,100px);font-weight:1000;box-shadow:0 0 35px #d49b3470;animation:kgxMark 1s .45s cubic-bezier(.08,.8,.16,1) both;}
+.kgx-kicker,.kgx-title,.kgx-sub,.kgx-line{z-index:3;text-align:center;position:relative;}
+.kgx-kicker{margin-top:20px;letter-spacing:.3em;font-size:clamp(9px,2.4vw,12px);color:#c4a15b;animation:kgxText .45s .72s both;}
+.kgx-title{margin-top:8px;font-size:clamp(38px,11vw,84px);font-weight:1000;letter-spacing:.12em;color:#f7e2a3;text-shadow:0 0 18px #d6a44155;animation:kgxTitle .7s .78s cubic-bezier(.12,.8,.12,1) both;}
+.kgx-sub{margin-left:.3em;font-size:clamp(18px,5vw,32px);font-weight:900;letter-spacing:.38em;color:#d2ad5b;animation:kgxText .5s 1.05s both;}
+.kgx-line{margin-top:18px;font-size:clamp(8px,2vw,10px);letter-spacing:.2em;color:#a68a4c;animation:kgxText .5s 1.3s both;}
+.kgx-skip{position:absolute;z-index:10;bottom:max(22px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:12px 22px;border:1px solid #b88b36;background:#080704d9;color:#e7c366;font-family:inherit;font-size:10px;letter-spacing:.18em;cursor:pointer;}
+.kgx-out{animation:kgxOut .58s ease both;}
+@keyframes kgxShatter1{0%{opacity:0;transform:translate3d(-80vw,-30vh,0) rotate(-32deg) scale(.3)}22%{opacity:.95}100%{opacity:.12;transform:translate3d(40vw,32vh,0) rotate(-8deg) scale(1.15)}}
+@keyframes kgxShatter2{0%{opacity:0;transform:translate3d(80vw,30vh,0) rotate(28deg) scale(.4)}25%{opacity:.85}100%{opacity:.12;transform:translate3d(-42vw,-28vh,0) rotate(9deg) scale(1.2)}}
+@keyframes kgxShapeFade{0%{opacity:0}25%{opacity:.35}100%{opacity:0}}
+@keyframes kgxCut{0%{transform:translateX(-120%) rotate(-8deg);opacity:0}20%{opacity:1}100%{transform:translateX(120%) rotate(-8deg);opacity:0}}
+@keyframes kgxHit{0%{opacity:0;transform:scale(.1)}15%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(8)}}
+@keyframes kgxMark{0%{opacity:0;transform:translateY(-65vh) rotate(-45deg) scale(.2)}65%{opacity:1;transform:translateY(14px) rotate(8deg) scale(1.12)}100%{opacity:1;transform:translateY(0) rotate(0) scale(1)}}
+@keyframes kgxTitle{0%{opacity:0;transform:perspective(500px) rotateX(65deg) translateY(45px) scale(.75);letter-spacing:.5em}65%{opacity:1;transform:perspective(500px) rotateX(-8deg) translateY(-5px) scale(1.08);letter-spacing:.1em}100%{opacity:1;transform:none;letter-spacing:.12em}}
+@keyframes kgxText{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes kgxOut{to{opacity:0;transform:scale(1.12);visibility:hidden}}
+@media(max-width:600px){.kgx-shape{width:160vw;height:62vh}.kgx-shape-c{width:110vw;height:110vw;left:-5vw;top:10vh}.kgx-ribbon{height:26vh;border-width:5vw}.kgx-intro-shape{height:24vh}.kgx-title{letter-spacing:.07em}}
+@media(prefers-reduced-motion:reduce){.kgx-world .kgx-shape-a{animation-duration:26s!important}.kgx-world .kgx-shape-b{animation-duration:24s!important}.kgx-world .kgx-shape-c{animation-duration:36s!important}.kgx-world .kgx-ribbon-a,.kgx-world .kgx-ribbon-b{animation-duration:26s!important}.kgx-world .kgx-fracture{animation-duration:18s!important}.kgx-intro .kgx-intro-shape,.kgx-intro .kgx-intro-cut,.kgx-intro .kgx-impact,.kgx-intro .kgx-mark,.kgx-intro .kgx-title,.kgx-intro .kgx-kicker,.kgx-intro .kgx-sub,.kgx-intro .kgx-line{animation-duration:1.6s!important}
+
+/* CHAOS FIX: visibly animated background and readable static intro for reduced-motion users */
+.kgx-static .kgx-intro-shape,.kgx-static .kgx-intro-cut,.kgx-static .kgx-impact{animation:none!important;opacity:.25!important;transform:none!important}
+.kgx-static .kgx-mark,.kgx-static .kgx-kicker,.kgx-static .kgx-title,.kgx-static .kgx-sub,.kgx-static .kgx-line{animation:none!important;opacity:1!important;transform:none!important}
+
+/* === KARASO REBUILD: high-visibility fluid motion, no reduced-motion shutdown === */
+.kgx-world{background:radial-gradient(ellipse at 50% 50%,#241603 0%,#0c0904 42%,#020202 78%)!important}
+.kgx-shape{filter:none!important;opacity:.78!important;border-radius:38% 62% 56% 44% / 55% 40% 60% 45%!important}
+.kgx-shape-a{width:105vw!important;height:95vh!important;left:-42vw!important;top:-32vh!important;animation:kgxFluidA 8.5s ease-in-out infinite alternate!important}
+.kgx-shape-b{width:120vw!important;height:110vh!important;right:-52vw!important;bottom:-42vh!important;opacity:.7!important;animation:kgxFluidB 7.8s ease-in-out infinite alternate!important}
+.kgx-shape-c{width:90vw!important;height:90vw!important;left:8vw!important;top:18vh!important;opacity:.58!important;animation:kgxFluidC 14s linear infinite!important}
+.kgx-ribbon{height:38vh!important;width:175vw!important;left:-35vw!important;border-width:5vw!important;opacity:.55!important;filter:none!important}
+.kgx-ribbon-a{animation:kgxFluidRibbonA 7s ease-in-out infinite alternate!important}
+.kgx-ribbon-b{top:12vh!important;left:-55vw!important;width:210vw!important;height:70vh!important;animation:kgxFluidRibbonB 9s ease-in-out infinite alternate!important}
+.kgx-orb{width:115vmax!important;height:115vmax!important;opacity:.65!important;animation:kgxFluidOrb 24s linear infinite!important}
+.kgx-fracture{opacity:.8!important;animation:kgxFluidFlash 4.2s ease-in-out infinite alternate!important}
+@keyframes kgxFluidA{0%{transform:translate3d(-13vw,-10vh,0) rotate(-32deg) scale(.7);border-radius:30% 70% 44% 56% / 48% 32% 68% 52%}50%{transform:translate3d(17vw,8vh,0) rotate(22deg) scale(1.2);border-radius:63% 37% 70% 30% / 36% 66% 34% 64%}100%{transform:translate3d(36vw,28vh,0) rotate(64deg) scale(1.45);border-radius:42% 58% 29% 71% / 66% 33% 67% 34%}}
+@keyframes kgxFluidB{0%{transform:translate3d(16vw,20vh,0) rotate(25deg) scale(.75);border-radius:62% 38% 24% 76% / 48% 63% 37% 52%}50%{transform:translate3d(-16vw,-5vh,0) rotate(-22deg) scale(1.22);border-radius:28% 72% 64% 36% / 70% 25% 75% 30%}100%{transform:translate3d(-34vw,-27vh,0) rotate(-62deg) scale(1.5);border-radius:55% 45% 36% 64% / 28% 71% 29% 72%}}
+@keyframes kgxFluidC{0%{transform:rotate(0) scale(.78)}50%{transform:rotate(180deg) scale(1.15)}100%{transform:rotate(360deg) scale(.82)}}
+@keyframes kgxFluidRibbonA{0%{transform:translate3d(-24vw,-18vh,0) rotate(-44deg) scale(.7)}50%{transform:translate3d(10vw,4vh,0) rotate(-14deg) scale(1.35)}100%{transform:translate3d(32vw,20vh,0) rotate(22deg) scale(.95)}}
+@keyframes kgxFluidRibbonB{0%{transform:translate3d(20vw,18vh,0) rotate(18deg) scale(.72)}50%{transform:translate3d(-8vw,-5vh,0) rotate(58deg) scale(1.2)}100%{transform:translate3d(-30vw,-22vh,0) rotate(92deg) scale(.9)}}
+@keyframes kgxFluidOrb{0%{transform:translate(-50%,-50%) rotate(0) scale(.8)}50%{transform:translate(-50%,-50%) rotate(180deg) scale(1.2)}100%{transform:translate(-50%,-50%) rotate(360deg) scale(.85)}}
+@keyframes kgxFluidFlash{0%{transform:translateX(-32%) skewY(-14deg);opacity:.2}50%{transform:translateX(8%) skewY(5deg);opacity:.95}100%{transform:translateX(36%) skewY(18deg);opacity:.45}}
+.kgx-intro{background:#010101!important}
+.kgx-stage{background:radial-gradient(ellipse at 50% 45%,#4a3009 0%,#160d03 35%,#030303 70%)!important}
+.kgx-intro-shape.one{animation:kgxShatter1 1.15s .05s cubic-bezier(.08,.82,.12,1) both!important}
+.kgx-intro-shape.two{animation:kgxShatter2 1.3s .1s cubic-bezier(.08,.82,.12,1) both!important}
+.kgx-intro-shape.three{animation:kgxSpin 1.7s linear both,kgxShapeFade 1.9s ease both!important}
+.kgx-intro-cut{animation:kgxCut .78s .12s ease-out both!important}
+.kgx-impact{animation:kgxHit .65s .25s ease-out both!important}
+.kgx-mark{animation:kgxMark .75s .3s cubic-bezier(.08,.8,.16,1) both!important}
+.kgx-title{animation:kgxTitle .6s .48s cubic-bezier(.12,.8,.12,1) both!important}
+@media(max-width:600px){.kgx-shape-a,.kgx-shape-b{will-change:transform!important}.kgx-shape-c{width:120vw!important;height:120vw!important;left:-10vw!important}.kgx-ribbon{border-width:4vw!important}}
