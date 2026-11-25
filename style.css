@@ -391,3 +391,37 @@ body>*:not(.karaso-chaos-bg):not(.karaso-chaos-intro){position:relative;z-index:
 @keyframes kcFadeOut{to{opacity:0;visibility:hidden}}
 @media(max-width:600px){.kc-ribbon{height:56vh}.kc-ribbon-b{height:48vh}.kc-ribbon-c{width:140vw}.kc-intro-tunnel{width:110vmax;height:110vmax}.kc-intro-k{border-radius:18px}}
 @media(prefers-reduced-motion:reduce){.kc-ribbon,.kc-orb,.kc-flash,.kc-intro-tunnel,.kc-intro-sweep,.kc-intro-impact,.kc-intro-ring,.kc-intro-k,.kc-intro-welcome,.kc-intro-title,.kc-intro-role{animation:none!important}.kc-intro-k,.kc-intro-welcome,.kc-intro-title,.kc-intro-role{opacity:1!important}}
+
+/* KARASO AUTH MODAL FIX — centered in the visible screen, never in page flow */
+#portalAuthOverlay, #authOverlay, #communityAuthOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  place-items: center !important;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  z-index: 2147483000 !important;
+  background: rgba(0,0,0,.84) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+#portalAuthOverlay.show, #authOverlay.show, #communityAuthOverlay.show {
+  display: flex !important;
+}
+#portalAuthOverlay > form, #authOverlay > form, #communityAuthOverlay > form {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  width: min(100%, 455px) !important;
+  max-height: calc(100dvh - 32px) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  margin: auto !important;
+}
+body.karaso-auth-open { overflow: hidden !important; }
